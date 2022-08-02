@@ -16,7 +16,7 @@ int dx[4] = {0,0,1,-1};
 int ice_bergs = 0;
 bool visited[303][303];
 
-void copyBoard() {
+void copyBoard() { // 배열 복사 
 	for(int i=0; i<n; i++) {
 		for(int j=0; j<m; j++) {
 			board[i][j] = copy_board[i][j];
@@ -24,13 +24,13 @@ void copyBoard() {
 	}
 }
 
-bool isValidRange(int y, int x) {
+bool isValidRange(int y, int x) { // 유효범위 체크 
 	if(y<0 || x<0 || y>n-1 || x>m-1) return false;
 	
 	return true;
 }
 
-void countIceBerg(int y, int x) { // 그래프 탐색 
+void countIceBerg(int y, int x) { // 빙하 덩어리 개수 세기 
 	queue<pair<int, int>> check_q;
 	check_q.push({y, x});
 	while(!check_q.empty()) {
@@ -53,7 +53,7 @@ void countIceBerg(int y, int x) { // 그래프 탐색
 	}
 }
 
-void bfs() { // 빙하 녹이기 
+void melt() { // 빙하 녹이기 
 	int size = q.size();		
 
 	while(size--) {
@@ -105,7 +105,7 @@ void solve() {
 			break;
 		}
 		else if(count == 1) { // 한 덩어리 
-			bfs();
+			melt();
 			answer += 1;
 		}
 		else if(count > 1) { // 두 덩어리 이상 
