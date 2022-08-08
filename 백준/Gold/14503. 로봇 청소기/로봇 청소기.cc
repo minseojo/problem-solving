@@ -11,7 +11,6 @@ struct Robot {
 	int dir;
 }robot;
 
-
 int N, M;
 int board[51][51];
 int dy[4] = {-1,0,1,0}; //북동남서 
@@ -36,26 +35,11 @@ void init() {
 
 void back() {
 	int d = robot.dir;
-	
-	// 북 
-	if(d == 0) {
-		robot.y += 1;
-	}
-	
-	//동 
-	else if(d == 1) {
-		robot.x -= 1;
-	}
-	
-	//남 
-	else if(d == 2) {
-		robot.y -= 1;
-	}
-	
-	//서 
-	else if(d == 3) {
-		robot.x += 1;
-	}
+	//북동남서
+	if(d == 0)robot.y += 1;
+	else if(d == 1) robot.x -= 1;
+	else if(d == 2)robot.y -= 1;
+	else if(d == 3)robot.x += 1;
 }
 
 bool clean() {
@@ -82,7 +66,7 @@ bool leftTurn() {
  
 int solution() {
 	int answer = 0;
-	int back_cnt = 0;
+    
 	while(1) {
 		if(clean()) {
 			answer += 1;
