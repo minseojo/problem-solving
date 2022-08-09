@@ -1,18 +1,29 @@
 #include <bits/stdc++.h>
+#define ll long long
 using namespace std;
 
-long long pow(long long a, long long b,long long c)
-{
-	long long sum=0;
-	if(b==0) return 1;
-	sum = pow(a,b/2,c);
-	long long result = sum*sum%c;
-	if(b%2!=0) return result*a%c;
-	return result;
+ll solution(int a, int b, int c) {
+	if(b == 0) return 1;
+	if(b == 1) return a;
+	
+	ll ret;
+
+	// 짝수 
+	if(b%2 == 0) {
+		ret = solution(a, b/2, c);
+		return (ret * ret) % c;
+	} 
+	// 홀수 
+	else {
+		ret = a * solution(a, b-1, c);
+		return ret % c;
+	}
 }
-int main()
-{
-	long long a,b,c;
-	scanf("%d %d %d",&a,&b,&c);
-	printf("%d",pow(a,b,c));
+
+int main() {
+	int A, B, C;
+	cin >> A >> B >> C;
+	cout << solution(A, B, C) % C;
+	
+	return 0;
 }
