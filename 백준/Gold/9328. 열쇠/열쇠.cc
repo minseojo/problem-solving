@@ -18,7 +18,7 @@ int answer = 0;
 bool isValidRange(int y, int x) {
 	if(y < 0 || x < 0 || y > n-1 || x > m-1) return false;
 	
-	if(visited[y][x] == true) return false;
+	if(visited[y][x]) return false;
 	
 	return true;
 }
@@ -29,12 +29,16 @@ void openDoor(char find_alpha) {
 	for(int i=0; i<door[key].size(); i++) {
 		int y = door[key][i].y;
 		int x = door[key][i].x;
-		board[y][x] = '7';
+		board[y][x] = '.';
+		
+		// 가장자리가 문을 연 경우 
 		if(y == 0 || y == n-1 || x == 0 || x == m-1) {
 			q.push({y, x});
 			visited[y][x] = true;
 			continue;
 		}
+		
+		// 문을 열었는데 주변을 이미 탐색한 경우 큐에 넣기 
 		for(int j=0; j<4; j++) {
 			int ny = y + dy[j];
 			int nx = x + dx[j];
@@ -68,10 +72,8 @@ void bfs() {
 			} else if('a' <= board[ny][nx] && board[ny][nx] <= 'z') {
 				q.push({ny, nx});
 				openDoor(board[ny][nx]);
-				board[ny][nx] = '5';
+				board[ny][nx] = '.';
 			} else if(board[ny][nx] == '.') {
-				q.push({ny, nx});
-			} else if(board[ny][nx] == '7') {
 				q.push({ny, nx});
 			}
 		}
@@ -131,8 +133,8 @@ void solution() {
 	}
 		
 	bfs();
+	
 	answers.push_back(answer);
-//	cout << answer << endl;	
 }
 
 int main() {
@@ -142,6 +144,7 @@ int main() {
 		init();		
 		solution();
 	}
+	
 	for(int i=0; i<answers.size(); i++) {
 		cout << answers[i] << endl;
 	}
