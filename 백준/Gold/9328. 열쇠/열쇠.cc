@@ -14,6 +14,7 @@ int dy[4] = {1,-1,0,0};
 int dx[4] = {0,0,1,-1};
 bool visited[101][101];
 int answer = 0;
+vector<int> answers;
 
 bool isValidRange(int y, int x) {
 	if(y < 0 || x < 0 || y > n-1 || x > m-1) return false;
@@ -98,7 +99,6 @@ void init() {
 	}	
 } 
 
-vector<int> answers;
 void solution() {
 	string k;
 	cin >> k;
