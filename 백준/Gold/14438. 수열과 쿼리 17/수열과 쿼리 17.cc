@@ -23,14 +23,13 @@ ll findMin(int start, int end, int node, int left, int right) {
 
 ll update(int start, int end, int node, int index, int diff) {
 	if (start > index || index > end) return tree[node];
-
+	
 	if (start == end) return tree[node] = diff;
 	
-	int mid = (start+end)/2;
+	int mid = (start+end)/2;	
 	ll l = update(start, mid, node*2, index, diff);
 	ll r = update(mid+1, end, node*2+1, index, diff);
-	tree[node] = min(l, r);
-	return tree[node];
+	return tree[node] = min(l, r);
 }
 
 int main() {
@@ -42,7 +41,6 @@ int main() {
     for(int i=1; i<=N; i++) cin >> arr[i];
     for(int i=1; i<=4*N; i++) tree[i] = MAX;
     
-	    
     cin >> M;
     initMin(1, N, 1);
 
