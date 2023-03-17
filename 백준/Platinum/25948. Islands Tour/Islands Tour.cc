@@ -61,7 +61,6 @@ int main() {
 	ios::sync_with_stdio(false);
     //n:정점개수(0~n-1) m: 간선개수
     cin >> m >> n;
-
     for(int i=0; i<m; i++) {
         int u, v;
         cin >> u >> v;
