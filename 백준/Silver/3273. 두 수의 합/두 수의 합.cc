@@ -16,14 +16,12 @@ int main() {
 	int result = 0;
 	while(r>0 && l<r) {
 		int sum = a[l]+a[r];
-		if(sum <= x) {
-			if(sum == x) result++;
-			l++;
-		}
-		else if(sum > x) {
-			r--;
-			l=0;
+		if(sum > x) r--;
+		else if(sum < x) l++;
+		else {
+			result++;
+			r--;	
 		}
 	}
-	cout << result;        
+	cout << result;              
 }
