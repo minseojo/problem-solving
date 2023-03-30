@@ -11,16 +11,14 @@ bool compareAlpha(string second) {
 	
 	int alpha[26];
 	int dupl_and_dif = 0;
-	int size = 0;
+
 	for(int i=0; i<26; i++) {
 		alpha[i] = alpha_copy[i];
 	}
 	for(int i=0; i<second.length(); i++) {
 		int idx = second[i]-'A';
-		
 		if(alpha[idx] > 0) {
 			alpha[idx]--;
-			size++;
 		} else if(alpha[idx] == 0) {
 			dupl_and_dif++;
 		}
