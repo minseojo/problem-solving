@@ -17,18 +17,14 @@ class Solution {
             while(size > 0) {
                 int ny = y + dy[dir];
                 int nx = x + dx[dir];
-                    
-                
-      
                 map[ny][nx] = cnt++;
                 y += dy[dir];
                 x += dx[dir];
                 size--;
             }
-            dir++;
-            dir %= 4;
+
+            dir = (dir+1) % 4;
             if(dir == 0 || dir == 2) n--;
-            System.out.println(dir + " " + n);
         }
         
         return map;
