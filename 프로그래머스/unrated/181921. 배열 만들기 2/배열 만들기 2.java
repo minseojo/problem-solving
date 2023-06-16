@@ -1,15 +1,15 @@
 import java.util.*;
 
 class Solution {
-    private static List<Integer> list = new ArrayList<>();
-    static boolean[] check = new boolean[555555551];
+    private List<Integer> list = new ArrayList<>();
+    Map<Integer, Boolean> check = new HashMap<>();
     
-    private static void generator(String str, int r) {
+    private void generator(String str, int r) {
         int val = Integer.parseInt(str);
-        if(check[val] || val > r) return;
+        if(check.containsKey(val) || val > r) return;
         
         list.add(val);
-        check[val] = true;
+        check.put(val, true);
         generator(str+"0", r);
         generator(str+"5", r);
     }
