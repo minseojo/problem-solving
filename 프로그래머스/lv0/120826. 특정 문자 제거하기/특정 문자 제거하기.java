@@ -1,11 +1,12 @@
+
 class Solution {
     public String solution(String my_string, String letter) {
-        String answer = "";
+        StringBuilder answer = new StringBuilder();
         for (char c : my_string.toCharArray()) {
             if (c != letter.charAt(0)) {
-                answer += c;
+                answer.append(c);
             }
         }
-        return answer;
+        return answer.toString();
     }
 }
