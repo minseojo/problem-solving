@@ -32,23 +32,25 @@ int main() {
 		v.push_back({country, a, b, c, -1});
 	}
 	sort(v.begin(), v.end(), comp);
-	for(int i = 0; i < v.size()-1; i++) {
-		if (v.at(i).a == v.at(i+1).a && v.at(i).b == v.at(i+1).b && v.at(i).c == v.at(i+1).c) {
-			v.at(i).rank = cur_rank;
-			v.at(i+1).rank = cur_rank;
-			total_rank += 2;
-			i++;
-		} else {
+	
+	v.at(0).rank = cur_rank;
+	for(int i = 1; i < v.size(); i++) {
+		if (v.at(i).a == v.at(i-1).a && v.at(i).b == v.at(i-1).b && v.at(i).c == v.at(i-1).c) {
 			v.at(i).rank = cur_rank;
 			total_rank++;
+		} else {
+			total_rank++;
 			cur_rank = total_rank;
+			v.at(i).rank = cur_rank;
 		}
 	}
 	
-	if(v.at(v.size()-1).rank == -1) {
-		v.at(v.size()-1).rank = cur_rank;
+	for (Country c : v) {
+		if(c.country == k) {
+			cout << c.rank;
+			return 0;
+		}
 	}
-	
-	cout << v.at(k-1).rank;
+
 	return 0;
 }
