@@ -2,8 +2,6 @@
 using namespace std;
 
 bool a[101];
-vector<int> man;
-vector<int> woman;
  
 int main() {
 	int n;
@@ -17,15 +15,15 @@ int main() {
 	for (int i = 0; i < size; i++) {
 		int gender, x;
 		cin >> gender >> x;
-		// 남자 
+		// 남자
 		if (gender == 1) {
-			for (int j = x; j <= n; j++) {
+			for (int j = x; j <= n; j+=x) {
 				if (j % x == 0) {
 					a[j] = !a[j];
 				}
 			}
 		}
-		
+
 		// 여자 
 		else if (gender == 2) {
 			int l = x-1, r = x+1;
