@@ -22,8 +22,9 @@ vector<Match> matches = {
 };
 
 int record[TOTAL_MATCH_COUNT][3];
+int cache[TOTAL_MATCH_COUNT][3];
 
-bool dfs(int matchCount, int cache[TOTAL_TEAM_COUNT][3]) {
+bool dfs(int matchCount) {
     if (matchCount == TOTAL_MATCH_COUNT) {
         for (int i = 0; i < TOTAL_TEAM_COUNT; i++) {
             for (int j = 0; j < 3; j++) {
@@ -42,21 +43,21 @@ bool dfs(int matchCount, int cache[TOTAL_TEAM_COUNT][3]) {
     // win, lose
     cache[teamA][WIN]++;
     cache[teamB][LOSE]++;
-    if (dfs(matchCount+1, cache)) return true;
+    if (dfs(matchCount+1)) return true;
     cache[teamA][WIN]--;
     cache[teamB][LOSE]--;
 
     // draw, draw
     cache[teamA][DRAW]++;
     cache[teamB][DRAW]++;
-    if (dfs(matchCount+1, cache)) return true;
+    if (dfs(matchCount+1)) return true;
     cache[teamA][DRAW]--;
     cache[teamB][DRAW]--;
 
     // lose, win
     cache[teamA][LOSE]++;
     cache[teamB][WIN]++;
-    if (dfs(matchCount+1, cache)) return true;
+    if (dfs(matchCount+1)) return true;
     cache[teamA][LOSE]--;
     cache[teamB][WIN]--;
 
@@ -67,13 +68,13 @@ vector<int> ans;
 int main() {
     int tc = 4;
     while(tc--) {
-        int cache[TOTAL_TEAM_COUNT][3] = {0}; 
+        memset(cache, 0, sizeof(cache));
         for (int i = 0; i < TOTAL_TEAM_COUNT; i++) {
             for (int j = 0; j < 3; j++) {
                 cin >> record[i][j];
             }
         }
-        ans.push_back(dfs(0, cache));
+        ans.push_back(dfs(0));
     }
 
     for (int answer : ans) {
