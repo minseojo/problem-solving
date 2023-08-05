@@ -3,7 +3,7 @@ using namespace std;
 
 bool area[101][101];
 int main() {
-	int result = 0;
+	int ans = 0;
 	for (int i = 0; i < 4; i++) {
 		int y, x, y2, x2;
 		cin >> y >> x >> y2 >> x2;
@@ -11,11 +11,11 @@ int main() {
 			for (int k = x; k < x2; k++) {
 				if(!area[j][k]) {
 					area[j][k] = true;
-					result++;
+					ans++;
 				}
 			}
 		} 
 	}
-	cout << result;
+	cout << ans;
 	return 0;
 }
