@@ -11,7 +11,7 @@ struct Edge {
 vector<Edge> adj;
 
 const static int INF = 1e9;
-long long dist[501];
+int dist[501];
 
 bool bellmanFord(int n, int start) {
     for (int i = 1; i <= n; i++) dist[i] = INF;
