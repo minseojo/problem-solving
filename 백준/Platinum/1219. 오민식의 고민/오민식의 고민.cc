@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <string.h>
 using namespace std;
 
 struct Edge {
@@ -77,8 +76,7 @@ int main() {
         cout << "gg";
     } else {
         for (int i = 0; i < findRoute.size(); i++) {
-            memset(visited, 0, sizeof(visited));
-            dfs(findRoute[i], end);
+            if (!visited[findRoute[i]]) dfs(findRoute[i], end);
         }
         if (isGee) cout << "Gee";
         else cout << dist[end];
