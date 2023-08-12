@@ -2,39 +2,39 @@
 using namespace std;
 
 struct St {
+	int node;
 	int score;
-	int person;
 	bool operator< (const St& st) {
-		if (score == st.score) return person < st.person;
+		if (score == st.score) return node < st.node;
 		return score < st.score;
 	}
 };
 
 vector<int> adj[51];
 bool visited[51];
-vector<St> ans;
-vector<St> ans2;
+vector<St> temp;
+
 void bfs(int start) {
+	memset(visited, 0, sizeof(visited));
 	queue<St> q;
-	q.push({0, start});
+	q.push({start, 0});
 	visited[start] = true;
 	int result = 0;
+	
 	while(!q.empty()) {
-		int size = q.size();
-		while(size--) {
-			int node = q.front().person;
-			int score = q.front().score;
-			result = max(result, score);
-			q.pop();
-			for (int i = 0; i < adj[node].size(); i++) {
-				int next_node = adj[node][i];
-				if (visited[next_node]) continue;
-				visited[next_node] = true;
-				q.push({score+1, next_node});
-			}
+		int node = q.front().node;
+		int score = q.front().score;
+		result = max(result, score);
+		q.pop();
+		for (int i = 0; i < adj[node].size(); i++) {
+			int next_node = adj[node][i];
+			if (visited[next_node]) continue;
+			visited[next_node] = true;
+			q.push({next_node, score+1});
 		}
 	}
-	ans.push_back({result, start});
+
+	temp.push_back({start, result});
 }
 
 int main() {
@@ -49,21 +49,19 @@ int main() {
 	}
 	
 	for (int i = 1; i <= n; i++) {
-		memset(visited, 0, sizeof(visited));
 		bfs(i);
 	}
-	sort(ans.begin(), ans.end());
-	int max_score = ans[0].score;
 	
-	for (int i = 0; i < ans.size(); i++) {
-		if (max_score == ans[i].score) {
-			ans2.push_back({max_score, ans[i].person});
+	sort(temp.begin(), temp.end());
+	int max_score = temp[0].score;
+	vector<St> ans;
+	for (int i = 0; i < temp.size(); i++) {
+		if (max_score == temp[i].score) {
+			ans.push_back({temp[i].node, max_score});
 		}
 	}
+	cout << max_score << " " << ans.size() << endl; 
+	for (St i : ans) cout << i.node << " ";
 
-	cout << max_score << " " << ans2.size() << endl;
-	for (St i: ans2) {
-		cout << i.person <<" ";
-	}
 	return 0;
 }
