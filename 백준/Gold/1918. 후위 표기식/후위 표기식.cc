@@ -21,7 +21,7 @@ int main() {
 			ex.pop();
 		}
 		else if (s[i] == '*' || s[i] == '/') {
-			while (!ex.empty() && (ex.top() == '*' || ex.top() == '/')) {
+			if (!ex.empty() && (ex.top() == '*' || ex.top() == '/')) {
 				ans += ex.top();
 				ex.pop();
 			}
