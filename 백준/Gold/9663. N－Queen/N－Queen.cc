@@ -15,10 +15,10 @@ void NQueen(int y) {
     }
 
     for(int x=0; x<n; x++) {
-        if(col[x] || visited1[x - y + n] || visited2[x + y + 1]) continue;
-        col[x] = visited1[x - y + n] = visited2[x + y + 1] = true;
+        if(col[x] || visited1[x - y + n] || visited2[x + y]) continue;
+        col[x] = visited1[x - y + n] = visited2[x + y] = true;
         NQueen(y + 1);
-        col[x] = visited1[x - y + n] = visited2[x + y + 1] = false;
+        col[x] = visited1[x - y + n] = visited2[x + y] = false;
     }
 }
 
