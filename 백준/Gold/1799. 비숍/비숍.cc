@@ -22,11 +22,11 @@ void DFS(int cnt, int x, int y, int color) {
         return;
     }
  
-    if (chess[y][x] && !visited1[x + y + 1] && !visited2[x - y + chess_size]) {
-        visited1[x + y + 1] = true;
+    if (chess[y][x] && !visited1[x + y] && !visited2[x - y + chess_size]) {
+        visited1[x + y ] = true;
         visited2[x - y + chess_size] = true;
-        DFS(cnt + 1, x + 2, y, color);
-        visited1[x + y + 1] = false;
+        DFS(cnt + 1, x + 2, y, color);  
+        visited1[x + y] = false;
         visited2[x - y + chess_size] = false;
     }
     DFS(cnt, x + 2, y, color);
