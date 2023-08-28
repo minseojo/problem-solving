@@ -4,9 +4,8 @@ using namespace std;
 
 bool dp[MAX + 1];
 int main() {
-	dp[0] = dp[2] = false;
-	dp[1] = true;
-	for (int i = 3; i <= MAX; i++) {
+	dp[1] = dp[3] = true;
+	for (int i = 4; i <= MAX; i++) {
 		if (!dp[i - 1] || !dp[i - 3] || !dp[i - 4]) dp[i] = true;
 	}
 	
