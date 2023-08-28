@@ -29,10 +29,6 @@ int main() {
 		need = v[i].need;
 		limit_time = v[i].limit_time;
 		
-		if (cur_time < need) {
-			cout << -1 << "\n";
-			return 0;
-		}
 		if (cur_time > limit_time) cur_time = limit_time - need;
 		else cur_time -= need;
 	}
