@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 string n;
 int check[51];
 int max_num;
