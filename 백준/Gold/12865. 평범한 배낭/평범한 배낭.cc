@@ -1,34 +1,42 @@
-// 0-1 Knapsack
+#include <iostream>
+#include <vector>
 #include <bits/stdc++.h>
 using namespace std;
 
 struct St {
-	int w;
-	int v;
+    int w;
+    int v;
 };
 
-vector<St> v;
-int dp[110][100001];
+int n, k;
+vector<St> bag;
+int dp[100001];
 
 int main() {
-	int n, k;
-	cin >> n >> k;
-	
-	int W, V;
-	v.push_back({-1, -1});
-	for(int i=0; i<n; i++) {
-		cin >> W >> V;
-		v.push_back({W, V});
-	}
-	
-	
-	for(int i=1; i<=n; i++) {
-		for(int j=1; j<=k; j++) {
-			if(j >= v[i].w) {
-				dp[i][j] = max(dp[i-1][j], dp[i-1][j-v[i].w] + v[i].v);  	
-			} else dp[i][j] = dp[i-1][j];
-		}
-	}
-	
-	cout << dp[n][k];
+    cin.tie(NULL);
+	ios::sync_with_stdio(false);
+    cin >> n >> k;
+    bag.push_back({-1, -1});
+    for(int i=0; i<n; i++) {
+        int w, v;
+        cin >> w >> v;
+        bag.push_back({w, v});
+    }
+
+    for(int i=1; i<bag.size(); i++) {
+        int w = bag[i].w;
+        int v = bag[i].v;
+        for(int j=k; j>=0; j--) {
+            if(j-w >= 0) {
+                dp[j] = max(dp[j], dp[j-w] + v);
+            }
+        }
+    }
+
+    int answer = 0;
+    for(int i=1; i<=k; i++) {
+        answer = max(answer, dp[i]);
+    }
+    cout << answer;
+    return 0;
 }
