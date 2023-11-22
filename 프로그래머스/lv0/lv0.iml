@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/120802. 두 수의 합" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120803. 두 수의 차" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120804. 두 수의 곱" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120805. 몫 구하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120806. 두 수의 나눗셈" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120807. 숫자 비교하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120808. 분수의 덧셈" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120809. 배열 두배 만들기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120810. 나머지 구하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120811. 중앙값 구하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120812. 최빈값 구하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120813. 짝수는 싫어요" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120814. 피자 나눠 먹기 （1）" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120815. 피자 나눠 먹기 （2）" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120816. 피자 나눠 먹기 （3）" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120817. 배열의 평균값" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120818. 옷가게 할인 받기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120819. 아이스 아메리카노" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120820. 나이 출력" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120821. 배열 뒤집기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120822. 문자열 뒤집기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120823. 직각삼각형 출력하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120824. 짝수 홀수 개수" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120825. 문자 반복 출력하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120826. 특정 문자 제거하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120829. 각도기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120830. 양꼬치" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120831. 짝수의 합" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120833. 배열 자르기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120834. 외계행성의 나이" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120835. 진료 순서 정하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120836. 순서쌍의 개수" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120837. 개미 군단" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120838. 모스부호 （1）" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120839. 가위 바위 보" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120840. 구슬을 나누는 경우의 수" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120841. 점의 위치 구하기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120842. 2차원으로 만들기" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120876. 겹치는 선분의 길이" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/120924. 다음에 올 숫자" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
