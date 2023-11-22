@@ -1,5 +1,34 @@
 import java.util.*;
 
+class Solution {    
+    public int solution(int[] priorities, int location) {
+        int[] prList = new int[priorities.length];
+        
+        
+        int[] sortedPriorities = Arrays.copyOf(priorities, priorities.length);
+        Arrays.sort(sortedPriorities);
+        
+        int rank = priorities.length - 1;
+        while (rank >= 0) {
+            for (int i = 0; i < priorities.length; i++) {
+                if (prList[i] != 0) {
+                    continue;
+                }
+                
+                int prValue = sortedPriorities[rank];
+                if (prValue == priorities[i]) {
+                    prList[i] = priorities.length - rank;
+                    rank--;
+                }
+            }
+        }
+
+        return prList[location];
+    }
+}
+/*
+import java.util.*;
+
 class Solution {
     class Process {
         int priority;
@@ -48,3 +77,4 @@ class Solution {
         return prList[location];
     }
 }
+*/
