@@ -1,18 +1,19 @@
-
 class Solution {
     public int[] solution(String s) {
+        int[] answer = new int[2];
         int deletedZeroCount = 0;
         int convertCount = 0;
-        
+
         while (!s.equals("1")) {
-            deletedZeroCount += countZero(s);
+            answer[1] += s.length();
             s = deleteZero(s);
-            int length = s.length();
-            s = convertBainary(length);
-            convertCount++;
+
+            answer[1] -= s.length();
+            s = Integer.toBinaryString(s.length());
+            answer[0]++;
         }
         
-        return new int[] {convertCount, deletedZeroCount};
+        return answer;
     }
     
     private int countZero(String s) {
@@ -28,16 +29,5 @@ class Solution {
     
     private String deleteZero(String s) {
         return s.replace("0", "");
-    }
-    
-    private String convertBainary(int value) {
-        StringBuilder result = new StringBuilder();
-        while (value > 0) {
-            result.append(value % 2);
-            System.out.println(value + " " + value % 2);
-            value /= 2;
-        }
-        
-        return result.reverse().toString();
     }
 }
