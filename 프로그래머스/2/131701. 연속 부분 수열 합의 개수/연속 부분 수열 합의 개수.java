@@ -15,9 +15,7 @@ class Solution {
             for (int j = 0; j < list.size(); j++) {
                 int sum = 0;
                 for (int k = 0; k < i; k++) {
-                    if (j + k < list.size()) {
-                        sum += list.get(j + k);
-                    }
+                    sum += list.get((j + k) % list.size());
                 }
                 set.add(sum);
             }
