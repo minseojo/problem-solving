@@ -1,51 +1,36 @@
 import java.util.*;
 
 class Solution {
-    
     public String solution(String[] survey, int[] choices) {
         String answer = "";
-        Map<Character, Integer> score = new HashMap<>();
+        char[][] types = {{'R', 'T'}, {'C', 'F'}, {'J', 'M'}, {'A', 'N'}};
+        int[] score = {-1, 3, 2, 1, 0, 1, 2, 3};
+        Map<Character, Integer> point = new HashMap<>();
+        
+        for (char[] t : types) {
+            point.put(t[0], 0);
+            point.put(t[1], 0);
+        }
+        
         for (int i = 0; i <survey.length; i++) {
             String type = survey[i];
             int choice = choices[i];
-            if (choice == 4) {
-                continue;
-            }
-            if (choice <= 3) {
-                score.put(type.charAt(0), score.getOrDefault(type.charAt(0), 0) + 4 - choice); 
+            
+            if (choice < 4) {
+                point.put(type.charAt(0), point.get(type.charAt(0)) + score[choice]); 
             } else {
-                score.put(type.charAt(1), score.getOrDefault(type.charAt(1), 0) + choice - 4); 
+                point.put(type.charAt(1), point.get(type.charAt(1)) + score[choice]); 
             }
         }
-
-        int r = score.getOrDefault('R', 0);
-        int t = score.getOrDefault('T', 0);
-        if (r >= t) {
-            answer += "R";
-        } else {
-            answer += "T";
+        
+        for (char[] t : types) {
+            if (point.get(t[0]) >= point.get(t[1])) {
+                answer += t[0];
+            } else {
+                answer += t[1];
+            }
         }
-        int c = score.getOrDefault('C', 0);
-        int f = score.getOrDefault('F', 0);
-        if (c >= f) {
-            answer += "C";
-        } else {
-            answer += "F";
-        }
-        int j = score.getOrDefault('J', 0);
-        int m = score.getOrDefault('M', 0);
-        if (j >= m) {
-            answer += "J";
-        } else {
-            answer += "M";
-        }
-        int a = score.getOrDefault('A', 0);
-        int n = score.getOrDefault('N', 0);
-        if (a >= n) {
-            answer += "A";
-        } else {
-            answer += "N";
-        }
+        
         return answer;
     }
 }
