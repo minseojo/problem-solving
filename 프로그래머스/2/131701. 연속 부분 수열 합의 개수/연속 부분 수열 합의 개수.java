@@ -10,17 +10,17 @@ class Solution {
         for (int i : elements) {
             list.add(i);
         }
-        
-        for (int i = 1; i <= list.size() / 2; i++) {
-            for (int j = 0; j < list.size(); j++) {
+
+        for (int len = 1; len <= list.size() / 2; len++) {
+            for (int i = 0; i < list.size(); i++) {
                 int sum = 0;
-                for (int k = 0; k < i; k++) {
-                    sum += list.get((j + k) % list.size());
+                for (int j = i; j < len + i; j++) {
+                    sum += list.get(j % list.size());
                 }
                 set.add(sum);
             }
         }
-        
+
         return set.size();
     }
 }
