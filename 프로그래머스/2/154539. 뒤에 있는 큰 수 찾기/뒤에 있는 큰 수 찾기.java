@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] numbers) {
-        List<Integer> answer = new ArrayList<>();
+        int[] answer = new int[numbers.length];
         Stack<Integer> stack = new Stack<>();
         
         for (int i = numbers.length - 1; i >= 0; i--) {
@@ -11,16 +11,13 @@ class Solution {
             }
             
             if (!stack.isEmpty()) {
-                answer.add(stack.peek());
+                answer[i] = stack.peek();
             } else {
-                answer.add(-1);
+                answer[i] = -1;
             }
             stack.add(numbers[i]);
         }
         
-        Collections.reverse(answer);
-        return answer.stream()
-                    .mapToInt(Integer::intValue)
-                    .toArray();
+        return answer;
     }
 }
