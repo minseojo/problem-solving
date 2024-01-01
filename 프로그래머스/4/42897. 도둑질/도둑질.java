@@ -1,3 +1,24 @@
+class Solution {
+    public int solution(int[] money) {        
+        int[][] dp = new int[2][money.length];
+
+        dp[0][0] = money[0]; // 처음을 고른 경우
+        dp[0][1] = money[0];
+        
+        dp[1][0] = 0;        // 마지막을 고른 경우
+        dp[1][1] = money[1];
+
+        for(int i = 2; i < money.length; i++) {
+            dp[0][i] = Math.max(dp[0][i - 2] + money[i], dp[0][i - 1]);
+            dp[1][i] = Math.max(dp[1][i - 2] + money[i], dp[1][i - 1]);
+        }
+
+        return Math.max(dp[0][dp[0].length  -2], dp[1][dp[1].length - 1]);
+    }
+}
+
+/*
+처음에 푼 풀이
 import java.util.*;
 
 class Solution {
@@ -39,3 +60,4 @@ class Solution {
         return result;
     }
 }
+*/
