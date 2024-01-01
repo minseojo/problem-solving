@@ -51,27 +51,15 @@ class Solution {
                     
                     if (!hasKey && visited[0][ny][nx] == 0 && maps[ny].charAt(nx) != 'X') {
                         visited[0][ny][nx] = result;
-                        if (maps[ny].charAt(nx) == 'O') {
-                            q.add(new Point(ny, nx, hasKey));
-                        } else if (maps[ny].charAt(nx) == 'L') {
+                        if (maps[ny].charAt(nx) == 'L') {
                             q.add(new Point(ny, nx, true));
-                        } else if (maps[ny].charAt(nx) == 'E') {
-                            q.add(new Point(ny, nx, hasKey));
                         } else {
                             q.add(new Point(ny, nx, hasKey));
                         }
                     }
                     if (hasKey && visited[1][ny][nx] == 0 && maps[ny].charAt(nx) != 'X') {
                         visited[1][ny][nx] = result;
-                        if (maps[ny].charAt(nx) == 'O') {
-                            q.add(new Point(ny, nx, hasKey));
-                        } else if (maps[ny].charAt(nx) == 'L') {
-                            q.add(new Point(ny, nx, hasKey));
-                        } else if (maps[ny].charAt(nx) == 'E') {
-                            q.add(new Point(ny, nx, hasKey));
-                        } else {
-                            q.add(new Point(ny, nx, hasKey));
-                        }
+                        q.add(new Point(ny, nx, hasKey));
                     }
                 }
             }
