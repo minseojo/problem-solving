@@ -1,24 +1,22 @@
 class Solution {
     public String solution(String s) {
         StringBuilder sb = new StringBuilder();
-        String upper = s.toUpperCase();
-        String lower = s.toLowerCase();
+        
         int pos = 0;
-        int wordIndex = 0;
-        while (pos < s.length()) {
-            if (s.charAt(pos) == ' ') {
-                wordIndex = 0;
+        for (char c : s.toCharArray()) {
+            if (c == ' ') {
+                pos = 0;
                 sb.append(" ");
             } else {
-                if (wordIndex % 2 == 0) {
-                    sb.append(upper.charAt(pos));
+                if (pos % 2 == 0) {
+                    sb.append(Character.toUpperCase(c));
                 } else {
-                    sb.append(lower.charAt(pos));
+                    sb.append(Character.toLowerCase(c));
                 }
-                wordIndex++;
+                pos++;
             }
-            pos++;
         }
+        
         return sb.toString();
     }
 }
