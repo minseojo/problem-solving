@@ -5,16 +5,13 @@ class Solution {
         int answer = 0;
         Arrays.sort(A);
         Arrays.sort(B);
-        List<Integer> b = new ArrayList<>();
-        for (int i : B) {
-            b.add(i);
-        }
         
+        int idx = 0;
         for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < b.size(); j++) {
-                if (A[i] < b.get(j)) {
+            for (int j = idx; j < B.length; j++) {
+                if (A[i] < B[j]) {
                     answer++;
-                    b.remove(j);
+                    idx = j + 1;
                     break;
                 }
             }
