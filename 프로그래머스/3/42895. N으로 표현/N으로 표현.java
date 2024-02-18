@@ -25,7 +25,7 @@ class Solution {
     }
     
     private void dp(int N, int number, int cur, int count, int[] x) {
-        if (count > 8 || count > 0 && cur == 0) {
+        if (count > 8 ) {
             return;
         }
         
@@ -39,6 +39,5 @@ class Solution {
             dp(N, number, cur * x[i], count + i, x); 
             dp(N, number, cur / x[i], count + i, x);
         }
-
     }
 }
