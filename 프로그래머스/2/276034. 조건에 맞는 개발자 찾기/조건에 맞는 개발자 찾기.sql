@@ -1,9 +1,10 @@
-SELECT id, email, first_name, last_name
-FROM developers AS d
-WHERE EXISTS (
-    SELECT 1
-    FROM skillcodes AS s
-    WHERE (s.name = 'Python' OR s.name = 'C#') AND 
-    (d.skill_code & s.code) = s.code
-)
-ORDER BY id;
+-- 코드를 작성해주세요
+select distinct(id), email, first_name, last_name
+from developers as d 
+join (
+    select *
+    from skillcodes
+    where name = 'Python' or name = 'C#'
+) as s
+on (d.skill_code & s.code) = s.code
+order by id
