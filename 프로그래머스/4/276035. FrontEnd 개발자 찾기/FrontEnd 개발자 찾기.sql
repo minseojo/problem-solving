@@ -5,11 +5,17 @@ with front_end_skill as (
     where category = 'Front End'
 )
 
+# select distinct(id), email, first_name, last_name
+# from developers as d
+# where exists (
+#     select *
+#     from front_end_skill fk
+#     where d.skill_code & fk.code
+# )
+# order by id
+
 select distinct(id), email, first_name, last_name
 from developers as d
-where exists (
-    select *
-    from front_end_skill fk
-    where d.skill_code & fk.code
-)
+cross join front_end_skill fk
+where d.skill_code & fk.code && fk.category = 'Front End'
 order by id
