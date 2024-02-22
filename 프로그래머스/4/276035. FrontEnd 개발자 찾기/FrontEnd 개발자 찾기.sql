@@ -7,6 +7,9 @@ with front_end_skill as (
 
 select distinct(id), email, first_name, last_name
 from developers as d
-join front_end_skill as fk
-on d.skill_code & fk.code
+where exists (
+    select *
+    from front_end_skill fk
+    where d.skill_code & fk.code
+)
 order by id
