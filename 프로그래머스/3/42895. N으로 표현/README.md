@@ -1,10 +1,10 @@
 # [level 3] N으로 표현 - 42895 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42895) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42895?language=java) 
 
 ### 성능 요약
 
-메모리: 87.1 MB, 시간: 38.68 ms
+메모리: 79.4 MB, 시간: 36.11 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 2월 0일 20:2:33
+2024년 02월 24일 20:30:01
 
 ### 문제 설명
 

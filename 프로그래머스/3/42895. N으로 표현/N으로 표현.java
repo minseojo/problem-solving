@@ -5,13 +5,7 @@ class Solution {
     public int solution(int N, int number) {
         answer = Integer.MAX_VALUE;
         int[] x = new int[11];
-        int tmpN = N;
-        int digitN = 0;
-        while (tmpN > 0) {
-            tmpN /= 10;
-            digitN++;
-        }
-        for (int i = 1; i <= 9; i+= digitN) {
+        for (int i = 1; i <= 9; i++) {
             String tmp = "";
             for (int j = 0; j < i; j++) {
                 tmp += N;
