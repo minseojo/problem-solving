@@ -71,17 +71,7 @@ class Solution {
             minTime = manArrivalTimes.get(0) - 1;
         }
         
-        String answer = "";
-        if (String.valueOf(minTime / 60).length() == 1) {
-            answer += ("0" + String.valueOf(minTime / 60 + ":"));
-        } else {
-            answer += String.valueOf(minTime / 60 + ":");
-        }
-        if (String.valueOf(minTime % 60).length() == 1) {
-            answer += ("0" + String.valueOf(minTime % 60));
-        } else {
-            answer += String.valueOf(minTime % 60);
-        }
+        String answer = String.format("%02d:%02d", minTime / 60 , minTime % 60 );
         return answer;
     }
 }
