@@ -1,16 +1,22 @@
+
 class Solution {
     public int solution(int n, int s, int a, int b, int[][] fares) {
         int answer = Integer.MAX_VALUE;
         int[][] dist = new int[n + 1][n + 1];
-        for (int i = 0; i <= n; i ++) {
-            for (int j = 0 ; j <= n; j++) {
+        int INF = 200000000;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
                 if (i == j) dist[i][j] = 0;
-                else dist[i][j] = 1_000_000;
+                else dist[i][j] = INF;
             }
         }
-        for (int[] f : fares) {
-            dist[f[0]][f[1]] = f[2];
-            dist[f[1]][f[0]] = f[2];
+        
+        for (int i = 0; i < fares.length; i++) {
+            int u = fares[i][0];
+            int v = fares[i][1];
+            int cost = fares[i][2];
+            dist[u][v] = Math.min(dist[u][v], cost);
+            dist[v][u] = Math.min(dist[v][u], cost);
         }
         
         for (int k = 1; k <= n; k++) {
@@ -21,21 +27,10 @@ class Solution {
             }
         }
         
-        
-        // s, a, b, c
-        // s -> c
-        // c -> a
-        // c -> b
-        int[] sToC = new int[n + 1];
-        for (int c = 1; c <= n; c++) { // 합승 후 하차 지점
-            if (s == c) continue;
-            sToC[c] = dist[s][c];
+        for (int i = 1; i <= n; i++) {
+            answer = Math.min(answer, dist[s][i] + dist[i][a] + dist[i][b]);
         }
         
-        for (int c = 1; c <= n; c++) { // C
-            answer = Math.min(answer, sToC[c] + dist[c][b] + dist[c][a]);
-        }
-
         return answer;
     }
 }
