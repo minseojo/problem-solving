@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[] cores) {
-        if (n < cores.length) {
+        if (n <= cores.length) {
             return n;
         }
 
