@@ -1,12 +1,14 @@
-SELECT MONTH(b.START_DATE) MONTH, b.CAR_ID, COUNT(*) RECORDS
-FROM (SELECT CAR_ID, COUNT(*) CNT
-    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
-    WHERE START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
-    GROUP BY CAR_ID
-    HAVING CNT >= 5) as a
-    JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY as b
-    ON a.CAR_ID = b.CAR_ID
-WHERE START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
-GROUP BY MONTH(b.START_DATE), b.CAR_ID
-HAVING RECORDS > 0
-ORDER BY MONTH, b.CAR_ID DESC
+select month(start_date) month, car_id, 
+    case 
+        when count(month(start_date)) != 0 then count(month(start_date))
+        end records
+from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+where car_id in (
+    select car_id
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY 
+    where start_date >= '2022-08-01' && start_date <= '2022-10-31'
+    group by car_id
+    having count(*) >= 5
+) and start_date >= '2022-08-01' && start_date <= '2022-10-31'
+group by car_id, month(start_date)
+order by month, car_id desc
