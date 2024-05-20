@@ -25,10 +25,10 @@ public class Main {
             // 2~l+2, 2~l+3
             // 3~l+3, 3~l+4
             double result = 1000 * 1000 * 100.0;
-            for (int k = l; k <= n; k++) {
-                for (int i = 0; i <= n - k; i++) {
+            for (int k = l; k <= n; k++) { // 구간 개수
+                for (int i = 0; i <= n - k; i++) { // 구간 개수에 따른 [시작, 끝] 구간 생성
                     double sum = 0;
-                    for (int j = i; j < i + k; j++) {
+                    for (int j = i; j < i + k; j++) { // [시작, 끝] 구간 비용 구하기
                         sum += cost[j];
                     }
                     result = Math.min(result, sum / k);
