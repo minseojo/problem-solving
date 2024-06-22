@@ -3,6 +3,48 @@ class Solution {
     private int[][] matrix;
     private int[][] dp;
     
+    public int solution(int[][] matrix_sizes) {
+        int n = matrix_sizes.length;
+        matrix = matrix_sizes;
+        dp = new int[n][n];
+
+        return matmul(0, n - 1);
+    }
+    
+    private int getMatmulDP(int l, int r) {
+        if (dp[l][r] == 0) {
+            dp[l][r] = matmul(l, r);
+        }
+        return dp[l][r];
+    }
+    
+    private int matmul(int l, int r) {
+        if (r - l == 0) {
+            return dp[l][r] = 0;
+        }
+    
+        if (r - l == 1) {
+            return dp[l][r] = matrix[l][0] * matrix[l][1] * matrix[r][1];
+        }
+        
+        int result = Integer.MAX_VALUE;
+        for (int m = l; m < r; m++) {
+            int leftMatmul = getMatmulDP(l, m);
+            int rightMatmul = getMatmulDP(m + 1, r);
+            int midMatmul = matrix[l][0] * matrix[m][1] * matrix[r][1];
+            result = Math.min(result, leftMatmul + rightMatmul + midMatmul);
+        }
+        return result;
+    }
+}
+
+
+/*
+class Solution {
+    
+    private int[][] matrix;
+    private int[][] dp;
+    
     static int INF = 987654321;
     
     public int solution(int[][] matrix_sizes) {
@@ -35,3 +77,4 @@ class Solution {
 }
 
 // 행렬이 2개일 때는 연산 횟수가 일정 하지만, 행렬의 개수가 3개 이상일 때는 연산의 순서에 따라서 곱하기 연산의 횟수가 바뀔 수 있습니다.
+*/
