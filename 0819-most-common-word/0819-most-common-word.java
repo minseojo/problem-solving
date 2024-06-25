@@ -1,11 +1,11 @@
 class Solution {
-    public String mostCommonWord(String paragraph, String[] banned) {
+public String mostCommonWord(String paragraph, String[] banned) {
         // 전처리
         paragraph = paragraph.replaceAll("\\W+", " ").toLowerCase();
         String[] words = paragraph.split(" ");
 
         Set<String> ban = new HashSet<>();
-        Map<String, Integer> counts = new HashMap<>();
+        Map<String, Integer> countMap = new HashMap<>();
 
         for (String word : banned) {
             ban.add(word);
@@ -13,10 +13,15 @@ class Solution {
 
         for (String word : words) {
             if (!ban.contains(word)) {
-                counts.put(word, counts.getOrDefault(word, 0) + 1);
+                countMap.put(word, countMap.getOrDefault(word, 0) + 1);
             }
         }
 
-        return Collections.max(counts.entrySet(), Map.Entry.comparingByValue()).getKey();
+        List<String> ketSet = new ArrayList<>(countMap.keySet());
+        ketSet.sort((i, j) -> {
+            return countMap.get(j).compareTo(countMap.get(i));
+        });
+        
+        return ketSet.get(0);
     }
 }
