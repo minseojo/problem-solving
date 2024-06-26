@@ -30,27 +30,17 @@ public class Main {
 
         int[] result = new int[4];
         int answer = 0;
-        int start = 0;
-        int end = 1;
 
-        result[dna[start]]++;
-        while (end - start < p - 1) {
-            result[dna[end]]++;
-            end++;
+        for (int i = 0; i < p; i++) {
+            result[dna[i]]++;
         }
-        if (end < s) result[dna[end]]++;
 
-        if (p == s) {
+        for (int i = 0; i <= s - p; i++) {
             if (satisfiedDnaMinCount(minDna, result)) answer++;
-        } else {
-            while (end < s) {
-                if (satisfiedDnaMinCount(minDna, result)) answer++;
-                result[dna[start]]--;
-                start++;
-                end++;
-                if (end < s) {
-                    result[dna[end]]++;
-                }
+
+            if (i < s - p) {
+                result[dna[i]]--;
+                result[dna[i + p]]++;
             }
         }
 
