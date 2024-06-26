@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
 
 public class Main {
 
@@ -13,30 +13,32 @@ public class Main {
             char[] commands = br.readLine().toCharArray();
             int n = Integer.parseInt(br.readLine());
             String temp = br.readLine();
-            temp = temp.substring(1, temp.length() - 1);
-            String[] x = temp.split(",");
-            List<Integer> list = new LinkedList<>();
+            String[] x = temp.substring(1, temp.length() - 1).split(",");
+
+            // 덱을 초기화
+            ArrayDeque<Integer> dq = new ArrayDeque<>(n);
             if (n != 0) {
                 for (String s : x) {
-                    list.add(Integer.parseInt(s));
+                    dq.add(Integer.parseInt(s));
                 }
             }
 
             boolean isError = false;
-            int reverseCount = 0;
+            boolean isReversed = false;
+
             for (char command : commands) {
                 if (command == 'R') {
-                    reverseCount++;
+                    isReversed = !isReversed;
                 } else if (command == 'D') {
-                    if (list.isEmpty()) {
+                    if (dq.isEmpty()) {
                         System.out.println("error");
                         isError = true;
                         break;
                     } else {
-                        if (reverseCount % 2 == 0) {
-                            list.remove(0);
-                        } else if (reverseCount % 2 == 1) {
-                            list.remove(list.size() - 1);
+                        if (isReversed) {
+                            dq.pollLast();
+                        } else {
+                            dq.pollFirst();
                         }
                     }
                 }
@@ -45,13 +47,20 @@ public class Main {
             if (!isError) {
                 StringBuilder result = new StringBuilder();
                 result.append("[");
-                if (reverseCount % 2 == 1) {
-                    Collections.reverse(list);
+                if (isReversed) {
+                    while (!dq.isEmpty()) {
+                        result.append(dq.pollLast()).append(",");
+                    }
+                } else {
+                    while (!dq.isEmpty()) {
+                        result.append(dq.pollFirst()).append(",");
+                    }
                 }
-                for (Integer integer : list) {
-                    result.append(integer + ",");
+
+                // 마지막 쉼표 제거
+                if (result.length() > 1) {
+                    result.deleteCharAt(result.length() - 1);
                 }
-                if (!list.isEmpty()) result.deleteCharAt(result.length() - 1);
                 result.append("]");
                 System.out.println(result);
             }
