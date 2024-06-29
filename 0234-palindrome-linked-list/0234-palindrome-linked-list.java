@@ -10,16 +10,16 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        List<Integer> nums = new ArrayList<>();
+        Deque<Integer> deque = new LinkedList<>();
 
-        while (head != null) {
-            nums.add(head.val);
-            head = head.next;
+        ListNode node = head;
+        while (node != null) {
+            deque.addLast(node.val);
+            node = node.next;
         }
 
-        int size = nums.size();
-        for (int i = 0; i < size / 2; i++) {
-            if (nums.get(i) != nums.get(size - i - 1)) return false;
+        while (!deque.isEmpty() && deque.size() > 1) {
+            if (deque.pollFirst() != deque.pollLast()) return false;
         }
 
         return true;
