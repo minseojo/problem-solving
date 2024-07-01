@@ -24,9 +24,10 @@ class Solution {
             evenNode.next = node.next;
             oddNode = oddNode.next;
             evenNode = node.next;
+
             if (oddNodeTail == null) oddNodeTail = evenNode;
-            
-            if (node.next != null && node.next.next != null) node = node.next.next;
+
+            if (node.next != null) node = node.next.next;
             else break;
         }
 
