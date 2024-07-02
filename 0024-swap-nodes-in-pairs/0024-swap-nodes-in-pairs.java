@@ -13,18 +13,18 @@ class Solution {
         if (head == null || head.next == null) return head;
 
         ListNode node = new ListNode();
-        ListNode prevNode = node;
-        ListNode curNode = head;
-
-        while (curNode != null && curNode.next != null) {
-            prevNode.next = curNode.next;
-            curNode.next = prevNode.next.next;
-            prevNode.next.next = curNode;
-
-            prevNode = curNode;
-            curNode = curNode.next;
+        node.next = head;
+        ListNode root = node;
+        
+        while (node.next != null && node.next.next != null) {
+            ListNode a = node.next;
+            ListNode b = node.next.next;
+            a.next = b.next;
+            b.next = a;
+            node.next = b;
+            node = a;
         }
 
-        return node.next;
+        return root.next;
     }
 }
