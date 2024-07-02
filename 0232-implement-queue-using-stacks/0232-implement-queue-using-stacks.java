@@ -1,28 +1,15 @@
 class MyQueue {
 
-    Stack<Integer> inStack;
-    Stack<Integer> deStack;
+    Deque<Integer> inStack = new ArrayDeque<>();
+    Deque<Integer> deStack = new ArrayDeque<>();
 
-    public MyQueue() {
-        this.inStack = new Stack<>();
-        this.deStack = new Stack<>();
-    }
-    
     public void push(int x) {
-        inStack.add(x);
+        inStack.addLast(x);
     }
     
     public int pop() {
-        while (!inStack.isEmpty()) {
-            deStack.add(inStack.pop());
-        }
-
-        int top = deStack.pop();
-
-        while( (!deStack.isEmpty())) {
-            inStack.add(deStack.pop());
-        }
-
+        int top = peek();
+        deStack.pollLast();
         return top;
     }
     
@@ -41,8 +28,7 @@ class MyQueue {
     }
     
     public boolean empty() {
-        if (inStack.isEmpty() && deStack.isEmpty()) return true;
-        return false;
+        return inStack.isEmpty() && deStack.isEmpty();
     }
 }
 
