@@ -1,21 +1,22 @@
 class Solution {
     public boolean isValid(String s) {
-        Deque<Character> dq = new ArrayDeque<>();
-        for (char cur : s.toCharArray()) {
-            if (cur == ')' || cur == '}' || cur == ']') {
-                if (dq.isEmpty()) return false;
-                char prev = dq.peekLast();
-                if (prev == '(' && cur != ')') return false;
-                else if (prev == '{' && cur != '}') return false;
-                else if (prev == '[' && cur != ']') return false;
-                dq.pollLast();
-            } else {
-                dq.addLast(cur);
+        Deque<Character> stack = new ArrayDeque<>();
+        
+        Map<Character, Character> table = new HashMap<>() {{
+            put(')', '(');
+            put('}', '{');
+            put(']', '[');
+        }};
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!table.containsKey(c)) {
+                stack.addLast(c);
+            } else if (!stack.isEmpty() && table.get(c) != stack.pollLast()) {
+                return false;
             }
         }
-        
-        if (!dq.isEmpty()) return false;
 
-        return true;
+        return stack.isEmpty();
     }
 }
