@@ -12,7 +12,7 @@ class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         Queue<ListNode> pq = new PriorityQueue<>((i, j) -> Integer.compare(i.val, j.val));
         for (ListNode node : lists) {
-            if (node != null) {
+            while (node != null) {
                 pq.add(node);
                 node = node.next;
             }
@@ -23,11 +23,8 @@ class Solution {
         while (!pq.isEmpty()) {
             node.next = pq.poll();
             node = node.next;
-
-            if (node.next != null) {
-                pq.add(node.next);
-            }
         }
+        node.next = null;
         return head.next;
     }
 }
