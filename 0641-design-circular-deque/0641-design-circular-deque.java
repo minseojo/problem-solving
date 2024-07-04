@@ -1,70 +1,75 @@
 class MyCircularDeque {
 
-    private int[] deque;
-    private int front;
-    private int rear;
+    static class DoublyLinkedList {
+        DoublyLinkedList left;
+        DoublyLinkedList right;
+        int value;
+
+        public DoublyLinkedList(int value) {
+            this.value = value;
+        }
+    }
+
+    private DoublyLinkedList head;
+    private DoublyLinkedList tail;
     private int size;
     private int curSize;
 
-// 0 1  2 3
-//   홀 짝
-
-// 2 3.  1
-//  rear front
-
     public MyCircularDeque(int k) {
-        this.front = (k - 1) / 2;
-        this.rear = (k - 1) / 2 + 1;
+        this.head = new DoublyLinkedList(0);
+        this.tail = new DoublyLinkedList(0);
+        this.head.right = tail;
+        this.tail.left = head;
         this.size = k;
-        this.deque = new int[k];
         this.curSize = 0;
     }
     
     public boolean insertFront(int value) {
-        if (this.isFull()) return false;
-        deque[front % size] = value;
-        front--;
-        if (front < 0) front = size - 1;
+        if (isFull()) return false;
+        DoublyLinkedList newNode = new DoublyLinkedList(value);
+        newNode.left = head;
+        newNode.right = head.right;
+        head.right.left = newNode;
+        head.right = newNode;
         curSize++;
         return true;
-
     }
     
     public boolean insertLast(int value) {
-        if (this.isFull()) return false;
-        deque[rear % size] = value;
-        rear++;
-        if (rear >= size) rear = 0;
+        if (isFull()) return false;
+        DoublyLinkedList newNode = new DoublyLinkedList(value);
+        newNode.left = tail.left;
+        newNode.right = tail;
+        tail.left.right = newNode;
+        tail.left = newNode;
         curSize++;
         return true;
     }
     
     public boolean deleteFront() {
-        if (this.isEmpty()) return false;
-        front++;
-        if (front >= size) front = 0;
+        if (isEmpty()) return false;
+        head.right = head.right.right;
+        head.right.left = head;
         curSize--;
         return true;
     }
     
     public boolean deleteLast() {
-        if (this.isEmpty()) return false;
-        rear--;
-        if (rear < 0) rear = size - 1;
+        if (isEmpty()) return false;
+        tail.left = tail.left.left;
+        tail.left.right = tail;
         curSize--;
-        return true;
+        return true;    
     }
     
     public int getFront() {
         if (isEmpty()) return -1;
-        if (front + 1 >= size) return deque[(front + 1) % size];
-        return deque[(front + 1) % size];
+        return head.right.value;
     }
     
     public int getRear() {
         if (isEmpty()) return -1;
-        if (rear - 1 < 0) return deque[(size - 1) % size];
-        return deque[(rear - 1) % size];
+        return tail.left.value;
     }
     
     public boolean isEmpty() {
