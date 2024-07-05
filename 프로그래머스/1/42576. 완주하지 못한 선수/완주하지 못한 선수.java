@@ -10,12 +10,9 @@ class Solution {
         
         for (String name : completion) {
             map.put(name, map.getOrDefault(name, 0) - 1);
+            if (map.get(name) == 0) map.remove(name);
         }
         
-        for (String name : participant) {
-            if (map.get(name) == 1) return name;
-        }
-        
-        return "";
+        return map.entrySet().iterator().next().getKey();
     }
 }
