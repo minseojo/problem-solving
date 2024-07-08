@@ -13,14 +13,16 @@ class Solution {
         }
         
         dfs("JFK", routes, result);
+        
+        Collections.reverse(result);
         return result;
     }
 
     private void dfs(String airport, Map<String, PriorityQueue<String>> routes, List<String> result) {
-        result.add(airport);
         PriorityQueue<String> destinations = routes.getOrDefault(airport, new PriorityQueue<>());
         while (!destinations.isEmpty()) {
             dfs(destinations.poll(), routes, result);
         }
+        result.add(airport);
     }
 }
