@@ -2,35 +2,33 @@ import java.util.*;
 
 class Solution {
     
-    StringBuilder sb = new StringBuilder();
+    static String DEPARTUE_AIRPORT = "ICN";
     
-    String result = "Z"; // ICN 보다 큰 Z
     public String[] solution(String[][] tickets) {
-        boolean[] visited = new boolean[tickets.length];
+        List<String> answer = new ArrayList<>();
         
-        sb.append("ICN");
-        dfs(0, "ICN", tickets, visited);
-        return result.split(" ");
+        Map<String, PriorityQueue<String>> routes = new HashMap<>();
+        for (String[] ticket : tickets) {
+            String from = ticket[0];
+            String to = ticket[1];
+            routes.putIfAbsent(from, new PriorityQueue<>());
+            routes.get(from).add(to);
+        }
+        
+        dfs(DEPARTUE_AIRPORT, routes, answer);
+        
+        Collections.reverse(answer);
+        return answer.toArray(new String[0]);
     }
     
-    private void dfs(int pos, String startPoint, String[][] tickets, boolean[] visited) {
-        if (pos == tickets.length) {
-            if (result.compareTo(sb.toString()) > 0) {
-                result = sb.toString();
-            }
-            return;
-        }
-        
-        for (int i = 0; i < tickets.length; i++) {
-            String start = tickets[i][0];
-            String dest = tickets[i][1];
-            if (!visited[i] && start.equals(startPoint)) {
-                visited[i] = true;
-                sb.append(" " + dest);
-                dfs(pos + 1, dest, tickets, visited);
-                sb.delete(sb.length() - (1 + dest.length()), sb.length());
-                visited[i] = false;
+    void dfs(String here, Map<String, PriorityQueue<String>> routes, List<String> answer) {
+        PriorityQueue<String> route = routes.get(here);
+        if (route != null) {
+            while (!route.isEmpty()) {
+                dfs(route.poll(), routes, answer);
             }
         }
+        answer.add(here);
     }
+
 }
