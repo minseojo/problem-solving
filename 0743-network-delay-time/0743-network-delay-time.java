@@ -3,11 +3,11 @@ class Solution {
     static int MAX_VALUE = 1_000_000;
 
     class Vertex {
-        int here;
+        int node;
         int cost;
 
-        Vertex(int here, int cost) {
-            this.here = here;
+        Vertex(int node, int cost) {
+            this.node = node;
             this.cost = cost;
         }
     }
@@ -39,15 +39,17 @@ class Solution {
         dist[k] = 0;
         while (!pq.isEmpty()) {
             Vertex cur = pq.poll();
-            int here = cur.here;
+            int node = cur.node;
             int cost = cur.cost;
 
-            if (dist[here] < cost) continue;
+            if (dist[node] < cost) continue;
 
-            for (Vertex next : graph.getOrDefault(here, new ArrayList<>())) {
-                if (dist[next.here] > cost + next.cost) {
-                    dist[next.here] = cost + next.cost;
-                    pq.add(new Vertex(next.here, dist[next.here]));
+            for (Vertex next : graph.getOrDefault(node, new ArrayList<>())) {
+                int nextNode = next.node;
+                int nextCost = next.cost;
+                if (dist[nextNode] > cost + nextCost) {
+                    dist[nextNode] = cost + nextCost;
+                    pq.add(new Vertex(nextNode, dist[nextNode]));
                 } 
             }
         }
