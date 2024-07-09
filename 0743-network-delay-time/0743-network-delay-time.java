@@ -2,13 +2,18 @@ class Solution {
 
     static int MAX_VALUE = 1_000_000;
 
-    class Vertex {
+    class Vertex implements Comparable<Vertex> {
         int node;
         int cost;
 
         Vertex(int node, int cost) {
             this.node = node;
             this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Vertex vertex) {
+            return Integer.compare(this.cost, vertex.cost);
         }
     }
 
@@ -34,7 +39,7 @@ class Solution {
             dist[i] = MAX_VALUE;
         }
 
-        Queue<Vertex> pq = new PriorityQueue<>((V1, V2) -> Integer.compare(V1.cost, V2.cost));
+        Queue<Vertex> pq = new PriorityQueue<>();
         pq.add(new Vertex(k, 0));
         dist[k] = 0;
         while (!pq.isEmpty()) {
