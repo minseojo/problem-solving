@@ -10,8 +10,9 @@ class Solution {
         }
 
         List<Integer> takes = new ArrayList<>();
+        List<Integer> taken = new ArrayList<>();
         for (Integer finish : courses.keySet()) {
-            if (!dfs(finish, takes, courses)) {
+            if (!dfs(finish, takes, taken, courses)) {
                 return false;
             }
         }
@@ -19,17 +20,21 @@ class Solution {
         return true;
     }
 
-    boolean dfs(Integer finish, List<Integer> takes, Map<Integer, List<Integer>> courses) {
-        if (takes.contains(finish)) 
+    boolean dfs(Integer here, List<Integer> takes, List<Integer> taken, Map<Integer, List<Integer>> courses) {
+        if (takes.contains(here)) 
             return false;
+            
+        if (taken.contains(here)) 
+            return true;
+        taken.add(here);
 
-        if (courses.containsKey(finish)) {
-            takes.add(finish);
-            for (Integer take : courses.get(finish)) {
-                if (!dfs(take, takes, courses)) 
+        if (courses.containsKey(here)) {
+            takes.add(here);
+            for (Integer take : courses.get(here)) {
+                if (!dfs(take, takes, taken, courses)) 
                     return false;
             }
-            takes.remove(finish);
+            takes.remove(here);
         }
         
         return true;
