@@ -42,15 +42,13 @@ class Solution {
             int here = cur.here;
             int cost = cur.cost;
 
-            if (dist[here] > cost) continue;
+            if (dist[here] < cost) continue;
 
-            if (graph.get(here) != null) {
-                for (Vertex next : graph.get(here)) {
-                    if (dist[next.here] > cost + next.cost) {
-                        dist[next.here] = cost + next.cost;
-                        pq.add(new Vertex(next.here, dist[next.here]));
-                    } 
-                }
+            for (Vertex next : graph.getOrDefault(here, new ArrayList<>())) {
+                if (dist[next.here] > cost + next.cost) {
+                    dist[next.here] = cost + next.cost;
+                    pq.add(new Vertex(next.here, dist[next.here]));
+                } 
             }
         }
 
