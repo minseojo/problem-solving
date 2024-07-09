@@ -53,9 +53,8 @@ class Solution {
         }
 
         for (int i = 1; i <= n; i++) {
-            int d = dist[i];
-            if (d == MAX_VALUE) return -1;
-            result = Math.max(result, d);
+            if (dist[i] == MAX_VALUE) return -1;
+            result = Math.max(result, dist[i]);
         }
         return result;
     }
