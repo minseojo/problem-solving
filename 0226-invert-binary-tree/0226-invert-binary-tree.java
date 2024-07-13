@@ -15,20 +15,14 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        if (root == null) return root;
-        TreeNode node = new TreeNode(root.val);
-        dfs(node, root);
-        return node;
-    }
+        if (root != null) {
+            invertTree(root.left);
+            invertTree(root.right);
 
-    void dfs(TreeNode node, TreeNode root) {
-        if (root.right != null) {
-            node.left = new TreeNode(root.right.val);
-            dfs(node.left, root.right);
+            TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
         }
-        if (root.left != null) {
-            node.right = new TreeNode(root.left.val);
-            dfs(node.right, root.left);
-        }
+        return root;
     }
 }
