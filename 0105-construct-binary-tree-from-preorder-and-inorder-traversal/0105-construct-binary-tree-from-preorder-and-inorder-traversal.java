@@ -22,6 +22,8 @@ class Solution {
         return build(preorder, map, 0, 0, inorder.length - 1);
     }
 
+    // here : 전위 순회 인덱스
+    // left, mid, right: 중위 순회 인덱스 
     TreeNode build(int[] preorder, Map<Integer, Integer> map, int here, int left, int right) {
         int mid = map.get(preorder[here]);
         TreeNode root = new TreeNode(preorder[here]);
