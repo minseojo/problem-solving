@@ -2,40 +2,24 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Collections.reverseOrder());
+        Queue<Integer> minHeap = new PriorityQueue<>();
+        Queue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
         
-        for (String operation : operations) {
-            String[] parts = operation.split(" "); 
-            String op = parts[0];
-            int value = Integer.valueOf(parts[1]);
-            
-            if (op.equals("I")) {
-                maxPQ.add(value);
-            } else if (op.equals("D")) {
-                if (value == 1) {
-                    if (!maxPQ.isEmpty()) {
-                        maxPQ.poll();
-                    }
-                } else if (value == -1) {
-                    PriorityQueue<Integer> minPQ = new PriorityQueue<>();
-                    minPQ.addAll(maxPQ);
-                    minPQ.poll();
-                    maxPQ.clear();
-                    maxPQ.addAll(minPQ);
+        for (String operation: operations) {
+            String[] op = operation.split(" ");
+            if (op[0].equals("I")) {
+                minHeap.add(Integer.valueOf(op[1]));
+                maxHeap.add(Integer.valueOf(op[1]));
+            } else {
+                if (op[1].equals("1")) {
+                    minHeap.remove(maxHeap.poll());
+                } else if (op[1].equals("-1")) {
+                    maxHeap.remove(minHeap.poll());
                 }
             }
         }
         
-        if (maxPQ.isEmpty()) {
-            return new int[] {0, 0};
-        }
-        
-        int[] answer = {Integer.MIN_VALUE, Integer.MAX_VALUE};
-        while (!maxPQ.isEmpty()) {
-            int top = maxPQ.poll();
-            answer[0] = Math.max(answer[0], top);
-            answer[1] = Math.min(answer[1], top);
-        }
-        return answer;
+        return new int[]{maxHeap.isEmpty() ? 0 : maxHeap.peek(), 
+                         minHeap.isEmpty() ? 0 : minHeap.peek()};
     }
 }
