@@ -1,25 +1,26 @@
-import java.util.*;
-
 class Solution {
     public String solution(String number, int k) {
+        String answer = "";
         StringBuilder sb = new StringBuilder(number);
-        
         int pos = 0;
-        for (int i = 0; i < k; i++) {
-            while (true) {
-                if (pos == sb.length() - 1) {
-                    sb.delete(pos, pos + 1);
-                    break;
-                }
-                if (sb.charAt(pos) < sb.charAt(pos + 1)) {
-                    sb.delete(pos, pos + 1);
-                    break;
-                }
+        int deletedNumberCount = 0;
+        while (pos < sb.length() && deletedNumberCount < k) {
+            if (pos + 1 < sb.length() && 
+                sb.charAt(pos) - '0' < sb.charAt(pos + 1) - '0') {
+                sb.deleteCharAt(pos);
+                deletedNumberCount++;
+                if (pos != 0) {
+                    pos--;
+                }   
+            } else {
                 pos++;
             }
-            if (pos > 0) pos--;
+            
         }
         
-        return sb.toString();
+        for (int i = deletedNumberCount; i < k; i++) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.toString(); 
     }
 }
