@@ -1,28 +1,29 @@
 class Solution {
-    int answer = 0;
-    boolean check = false;
+    
+    int pos;
+    boolean end;
+    static char[] dict = new char[] {'A', 'E', 'I', 'O', 'U'};
+    
     public int solution(String word) {
-        char[] type = {'A', 'E', 'I', 'O', 'U'};
-        dfs(0, word, "", type);
-        return answer - 1;
+        int result = 0;
+        dfs(word, new StringBuilder(""));
+        return pos;
     }
     
-    boolean dfs(int pos, String word, String cur, char[] type) {
-        answer++;
-                
-        if (cur.equals(word)) {
-            return true;
+    void dfs(String word, StringBuilder cur) {
+        if (cur.length() > 5 || end) {
+            return;
         }
-        
-        if (cur.length() >= 5) return false;
 
-
-        
-        for (int i = 0; i < 5; i++) {
-            check = dfs(pos + 1, word, cur + type[i], type);
-            if (check) return true;
+        if (cur.toString().equals(word)) {
+            end = true;
+            return;
         }
-        
-        return false;
+        pos++;
+        for (char d : dict) {
+            cur.append(d);
+            dfs(word, cur);
+            cur.deleteCharAt(cur.length() - 1);
+        }
     }
 }
