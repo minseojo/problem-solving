@@ -1,50 +1,41 @@
 import java.util.*;
 
 class Solution {
+    
+    class Data {
+        int value;
+        int index;
+        
+        Data (int value, int index) {
+            this.value = value;
+            this.index = index;
+        }
+    }
+    
     public int[] solution(int[] prices) {
         int[] answer = new int[prices.length];
-        Stack<Integer> stack = new Stack<>();
+        Deque<Data> stack = new ArrayDeque<>();
         
         for (int i = 0; i < prices.length; i++) {
-            while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
-                int top = stack.pop();
-                answer[top] = i - top;
+            int p = prices[i];
+            
+            if (stack.isEmpty()) {
+                stack.addLast(new Data(p, i));
+                continue;
             }
-            stack.add(i);
+            
+            while (!stack.isEmpty() && stack.peekLast().value > p) {
+                Data d = stack.pollLast();
+                answer[d.index] = i - d.index;
+            } 
+            stack.addLast(new Data(p, i));
         }
         
         while (!stack.isEmpty()) {
-            int top = stack.pop();
-            answer[top] = prices.length - top - 1;
+            Data d = stack.pollLast();
+            answer[d.index] = prices.length - d.index - 1;
         }
-
+        answer[prices.length - 1] = 0;
         return answer;
     }
 }
-
-// 시간 복잡도 : O(n)
-/*
-import java.util.*;
-
-class Solution {
-    public int[] solution(int[] prices) {
-        int[] answer = new int[prices.length];
-        Stack<Integer> stack = new Stack<>();
-
-        for (int i = 0; i < prices.length; i++) {
-            while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
-                int top = stack.pop();
-                answer[top] = i - top;
-            }
-            stack.push(i);
-        }
-
-        while (!stack.isEmpty()) {
-            int top = stack.pop();
-            answer[top] = prices.length - top - 1;
-        }
-
-        return answer;
-    }
-}
-*/
