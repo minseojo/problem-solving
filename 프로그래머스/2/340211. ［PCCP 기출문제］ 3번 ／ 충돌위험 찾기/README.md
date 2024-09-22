@@ -1,10 +1,10 @@
 # [level 2] [PCCP 기출문제] 3번 / 충돌위험 찾기 - 340211 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340211?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/340211) 
 
 ### 성능 요약
 
-메모리: 208 MB, 시간: 533.64 ms
+메모리: 223 MB, 시간: 567.43 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 09월 22일 21:55:11
+2024년 09월 22일 22:14:12
 
 ### 문제 설명
 
