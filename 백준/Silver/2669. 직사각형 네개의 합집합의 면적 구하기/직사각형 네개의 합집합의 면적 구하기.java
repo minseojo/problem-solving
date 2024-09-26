@@ -9,6 +9,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int[][] map = new int[101][101];
+        int answer = 0;
 
         for (int i = 0; i < 4; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -19,19 +20,14 @@ public class Main {
 
             for (int j = y; j < y2; j++) {
                 for (int k = x; k < x2; k++) {
-                    map[j][k] = 1;
+                    if (map[j][k] == 0) {
+                        map[j][k] = 1;
+                        answer++;
+                    }
                 }
             }
         }
 
-        int answer = 0;
-        for (int i = 0; i < 101; i++) {
-            for (int j = 0; j < 101; j++) {
-                if (map[i][j] == 1) {
-                    answer++;
-                }
-            }
-        }
         System.out.println(answer);
     }
 }
