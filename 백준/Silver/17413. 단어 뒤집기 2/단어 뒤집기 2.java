@@ -10,32 +10,36 @@ public class Main {
         StringBuilder answer = new StringBuilder();
 
         StringBuilder sb = new StringBuilder();
-        boolean isTag = false;
-        for (int j = 0; j < temp.length(); j++) {
-            if (!isTag && temp.charAt(j) == ' ') {
-                if (!sb.toString().isEmpty()) {
-                    answer.append(sb.reverse()).append(" ");
+
+        for (int i = 0; i < temp.length(); i++) {
+            if (temp.charAt(i) == ' ') {
+                if (sb.length() > 0) {
+                    answer.append(sb.reverse() + " ");
                 }
                 sb = new StringBuilder();
                 continue;
-            }
-            else if (!isTag && temp.charAt(j) == '<') {
-                if (!sb.toString().isEmpty()) {
-                    answer.append(sb.reverse());
-                    sb = new StringBuilder();
-                }
-                isTag = true;
             }
 
-            if (temp.charAt(j) == '>') {
-                isTag = false;
-                answer.append(sb + ">");
+            if (temp.charAt(i) == '<') {
+                if (sb.length() > 0) {
+                    answer.append(sb.reverse());
+                }
                 sb = new StringBuilder();
+
+                int j = i;
+                while (j < temp.length() && temp.charAt(j) != '>') {
+                    answer.append(temp.charAt(j));
+                    j++;
+                }
+                i = j;
+                answer.append(">");
                 continue;
             }
-            sb.append(temp.charAt(j));
+
+            sb.append(temp.charAt(i));
         }
-        if (!sb.toString().isEmpty()) {
+
+        if (sb.length() > 0) {
             answer.append(sb.reverse());
         }
 
