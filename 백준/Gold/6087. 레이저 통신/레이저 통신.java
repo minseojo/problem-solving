@@ -82,6 +82,11 @@ public class Main {
                 int dir = p.dir;
                 int count = p.count;
 
+                if (y == ey && x == ex) {
+                    System.out.println(count);
+                    return;
+                }
+
                 for (int i = 0; i < 4; i++) {
                     int ny = y + dy[i];
                     int nx = x + dx[i];
@@ -103,10 +108,6 @@ public class Main {
             }
         }
 
-        int result = Integer.MAX_VALUE;
-        for (int k = 0; k < 4; k++) {
-            result = Math.min(result, visited[ey][ex][k]);
-        }
-        System.out.println(result);
+        System.out.println(-1);
     }
 }
