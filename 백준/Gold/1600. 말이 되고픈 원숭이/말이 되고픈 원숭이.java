@@ -1,90 +1,68 @@
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-
-    static int[][] dir = {
-            {1, 0}, {-1, 0}, {0, 1}, {0, -1}, // Normal moves
-            {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1} // Knight moves
-    };
-
     static int k, n, m;
+    static int[] dy = {1, -1, 0, 0, -1, 1, -1, 1, 2, -2, 2, -2};
+    static int[] dx = {0, 0, 1, -1, 2, 2, -2, -2, 1, 1, -1, -1};
     static int[][] map;
-    static boolean[][][] visited;
-    static int[][] result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        k = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        k = Integer.parseInt(st.nextToken());
-        st = new StringTokenizer(br.readLine());
         m = Integer.parseInt(st.nextToken());
         n = Integer.parseInt(st.nextToken());
         map = new int[n][m];
-        visited = new boolean[n][m][k + 1];
-        result = new int[n][m];
-
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i< n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < m; j++) {
+            for(int j = 0; j< m; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        if (map[0][0] == 1) {
-            System.out.println(-1);
-            return;
-        }
-
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(result[i], Integer.MAX_VALUE);
-        }
-
-        BFS(0, 0);
-
-        int distance = result[n - 1][m - 1];
-        if (distance == Integer.MAX_VALUE) System.out.println(-1);
-        else System.out.println(result[n - 1][m - 1]);
+        System.out.println(bfs());
     }
 
-    static void BFS(int sy, int sx) {
+    static int bfs() {
         Queue<int[]> q = new LinkedList<>();
-        q.add(new int[] {sy, sx, 0, k});
-        visited[sy][sx][k] = true;
+        boolean[][][] visited = new boolean[n][m][k +1];
+        q.add(new int[] {0, 0, 0});
+        visited[0][0][0] = true;
 
-        result[sy][sx] = 0;
+        int depth = 0;
+        while(!q.isEmpty()) {
+            int size = q.size();
+            while (size-- > 0) {
+                int now[] = q.poll();
+                int y = now[0];
+                int x = now[1];
+                int count = now[2];
 
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int y = cur[0];
-            int x = cur[1];
-            int count = cur[2];
-            int kSize = cur[3];
+                if(y == n - 1 && x == m - 1) return depth;
 
-            if (y == n - 1 && x == m - 1) return;
+                for(int dir = 0; dir < 12; dir++) {
+                    int ny = y + dy[dir];
+                    int nx = x + dx[dir];
+                    int nextCount = count;
 
-            for (int i = 0; i < dir.length; i++) {
-                int ny = y + dir[i][0];
-                int nx = x + dir[i][1];
-
-                if (ny < 0 || nx < 0 || ny >= n || nx >= m || map[ny][nx] == 1) continue;
-
-                if (i < 4) {
-                    if (!visited[ny][nx][kSize]) {
-                        visited[ny][nx][kSize] = true;
-                        result[ny][nx] = count + 1;
-                        q.add(new int[]{ny, nx, count + 1, kSize});
+                    if (dir >= 4) {
+                        if (nextCount + 1 > k) continue;
+                        nextCount++;
                     }
-                } else {
-                    if (kSize > 0 && !visited[ny][nx][kSize - 1]) {
-                        visited[ny][nx][kSize - 1] = true;
-                        result[ny][nx] = count + 1;
-                        q.add(new int[]{ny, nx, count + 1, kSize - 1});
-                    }
+                    if (ny < 0 || ny >= n || nx < 0 || nx >= m || visited[ny][nx][nextCount]) continue;
+                    if (map[ny][nx] == 1) continue;
+                    visited[ny][nx][nextCount] = true;
+                    q.add(new int[] {ny, nx, nextCount});
                 }
             }
+            depth++;
         }
+
+        return -1;
     }
 }
