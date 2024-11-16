@@ -9,19 +9,10 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         int answer = 0;
 
-        int l = 0;
-        int r = l + 1;
-        while (l < r && r <= n) {
-            long sum = ((long) r * (r + 1) / 2) - ((long) l * (l + 1) / 2);
-            if (sum >= n) {
-                if (sum == n) {
-                    answer++;
-                }
-                l++;
-                r = l + 1;
-            } else {
-                r++;
-            }
+        for (int i = 1; i <= n; i++) {
+            long sum = ((long) i * (i + 1) / 2);
+            if (sum > n) break;
+            if ((n - sum) % i == 0) answer++;
         }
 
         System.out.println(answer);
