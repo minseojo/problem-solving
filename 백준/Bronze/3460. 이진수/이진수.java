@@ -10,10 +10,15 @@ public class Main {
 
         for (int i = 1; i <= testCase; i++) {
             int n = Integer.parseInt(br.readLine());
-            String bit = Integer.toString(n, 2);
-            for (int j = bit.length() - 1; j >= 0; j--) {
-                if (bit.charAt(j) == '1') System.out.print(bit.length() - j - 1 + " ");
+            int k = 0;
+            while (n > 0) {
+                if ((n & 1) == 1) {
+                    System.out.print(k + " ");
+                }
+                n /= 2;
+                k++;
             }
         }
     }
+
 }
