@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
@@ -10,6 +8,7 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int s = Integer.parseInt(st.nextToken());
+
         int[] prefixSum = new int[n + 1];
         st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= n; i++) {
@@ -20,16 +19,18 @@ public class Main {
         int answer = Integer.MAX_VALUE;
         int l = 0;
         int r = l + 1;
-        while (l < r && r <= n) {
+        while (r <= n) {
             int sum = prefixSum[r] - prefixSum[l];
-            while (sum >= s) {
+            if (sum >= s) {
                 answer = Math.min(answer, r - l);
                 l++;
-                sum = prefixSum[r] - prefixSum[l];
+            } else {
+                r++;
             }
-            r++;
         }
 
-        System.out.println(answer == Integer.MAX_VALUE ? 0 : answer);
+        if (answer == Integer.MAX_VALUE) System.out.println(0);
+        else System.out.println(answer);
     }
+
 }
