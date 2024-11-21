@@ -1,69 +1,57 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
-    static class Edge {
-        int node;
-        int cost;
-
-        public Edge(int node, int cost) {
-            this.node = node;
-            this.cost = cost;
-        }
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-
-        int n = Integer.parseInt(st.nextToken());
+        StringTokenizer st;
+        int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
 
-        List<List<Edge>> graph = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
+        Map<Integer, List<int[]>> graph = new HashMap<>();
+        for (int i = 1; i <= n; i++) {
+            graph.put(i, new ArrayList<>());
         }
-        for (int i = 0 ; i < m; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int from = Integer.parseInt(st.nextToken());
-            int to = Integer.parseInt(st.nextToken());
-            int cost = Integer.parseInt(st.nextToken());
-            graph.get(from).add(new Edge(to, cost));
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
+            graph.get(u).add(new int[]{v, c});
         }
 
-        st = new StringTokenizer(br.readLine(), " ");
-        int origin = Integer.parseInt(st.nextToken());
-        int dest = Integer.parseInt(st.nextToken());
-        System.out.println(dijkstra(n, origin, dest, graph));
+        st = new StringTokenizer(br.readLine());
+        int start = Integer.parseInt(st.nextToken());
+        int end = Integer.parseInt(st.nextToken());
+        System.out.println(dijkstra(n, graph, start, end));
     }
 
-    private static int dijkstra(int n, int origin, int dest, List<List<Edge>> graph) {
-        int MAX_DIST = Integer.MAX_VALUE;
+    static int dijkstra(int n, Map<Integer, List<int[]>> graph, int start, int end) {
+        final int MAX = 987654321;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((i, j) -> Integer.compare(i[1], j[1]));
         int[] dist = new int[n + 1];
-        Arrays.fill(dist, MAX_DIST);
-        dist[origin] = 0;
-
-        PriorityQueue<Edge> pq = new PriorityQueue<>((i, j) -> Integer.compare(i.cost, j.cost));
-        pq.add(new Edge(origin, 0));
+        Arrays.fill(dist, MAX);
+        pq.add(new int[] {start, 0});
+        dist[start] = 0;
 
         while (!pq.isEmpty()) {
-            Edge edge = pq.poll();
-            int next = edge.node;
-            int nextCost = edge.cost;
+            int[] top = pq.poll();
+            int cur = top[0];
+            int cost = top[1];
 
-            if (dist[next] < nextCost) continue;
-            for (int i = 0; i < graph.get(next).size(); i++) {
-                int nextNext = graph.get(next).get(i).node;
-                int nextNextCost = nextCost + graph.get(next).get(i).cost;
-                if (dist[nextNext] > nextNextCost) {
-                    dist[nextNext] = nextNextCost;
-                    pq.add(new Edge(nextNext, dist[nextNext]));
+            if (cost > dist[cur]) continue;
+
+            for (int[] node : graph.get(cur)) {
+                int next = node[0];
+                int nextCost = node[1];
+                if (dist[next] > cost + nextCost) {
+                    dist[next] = cost + nextCost;
+                    pq.add(new int[] {next, dist[next]});
                 }
             }
         }
 
-        return dist[dest];
+        return dist[end];
     }
 }
