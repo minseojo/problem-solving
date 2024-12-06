@@ -15,17 +15,16 @@ class Program
                    stack.Push(value);
                    break;
                case "pop":
-                   if (stack.Any()) Console.WriteLine(stack.Pop());
-                   else Console.WriteLine("-1");
+                   Console.WriteLine(stack.Count > 0 ? stack.Pop() : "-1");
                    break;
                case "size":
                    Console.WriteLine(stack.Count());
                    break;
                case "empty":
-                   Console.WriteLine(stack.Any() ? "0" : "1");
+                   Console.WriteLine(stack.Count > 0 ? "0" : "1");
                    break;
                case "top":
-                   Console.WriteLine(stack.Any() ? stack.Peek() : "-1");
+                   Console.WriteLine(stack.Count > 0 ? stack.Peek() : "-1");
                    break;
                default:
                    break;
