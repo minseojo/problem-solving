@@ -46,7 +46,7 @@ class Solution {
             for (TreeNode data : q) {
                 arr[k++] = data.val;
             }
-            int[] sortedArr = Arrays.copyOfRange(arr, 0, q.size());
+            int[] sortedArr = arr.clone();
             Arrays.sort(sortedArr);
 
             for (int i = 0; i < q.size(); i++) {
