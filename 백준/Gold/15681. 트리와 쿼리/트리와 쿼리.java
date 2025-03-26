@@ -1,54 +1,51 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
-    static int[] result = new int[100_001];
-    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        int n = Integer.parseInt(st.nextToken());
-        int r = Integer.parseInt(st.nextToken());
-        int q = Integer.parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int R = Integer.parseInt(st.nextToken());
+        int Q = Integer.parseInt(st.nextToken());
 
-        List<List<Integer>> tree = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            tree.add(new ArrayList<>());
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        for (int i = 1; i <= N; i++) {
+            adj.put(i, new ArrayList<>());
         }
-        for (int i = 0; i < n - 1; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            tree.get(u).add(v);
-            tree.get(v).add(u);
+        for (int i = 0; i < N - 1; i++) {
+            st = new StringTokenizer(br.readLine());
+            int U = Integer.parseInt(st.nextToken());
+            int V = Integer.parseInt(st.nextToken());
+            adj.get(U).add(V);
+            adj.get(V).add(U);
         }
 
-        boolean[] visited = new boolean[n + 1];
-        dfs(r, tree, visited);
-        for (int i = 0; i < q; i++) {
-            int u = Integer.parseInt(br.readLine());
-            System.out.println(result[u]);
+        StringBuilder answer = new StringBuilder();
+        int[] dp = new int[N + 1];
+        solution(R, dp, adj, new boolean[N + 1]);
+        for (int i = 0; i < Q; i++) {
+            int U = Integer.parseInt(br.readLine());
+            answer.append(dp[U]).append("\n");
         }
+        System.out.println(answer.toString());
     }
 
-    private static int dfs(int parent, List<List<Integer>> tree, boolean[] visited) {
-        int ans = 1;
-        visited[parent] = true;
+    public static int solution(int current, int[] dp, Map<Integer, List<Integer>> adj, boolean[] visited) {
+        visited[current] = true;
 
-        for (int i = 0; i < tree.get(parent).size(); i++) {
-            int child = tree.get(parent).get(i);
-            if (!visited[child]) {
-                ans += dfs(child, tree, visited);
+        int result = 1;
+        for (int i = 0; i < adj.get(current).size(); i++) {
+            int next = adj.get(current).get(i);
+            if (!visited[next]) {
+                result += solution(next, dp, adj, visited);
             }
         }
-        
-        result[parent] = ans;
-        return ans;
+
+        dp[current] = result;
+        return result;
     }
 }
