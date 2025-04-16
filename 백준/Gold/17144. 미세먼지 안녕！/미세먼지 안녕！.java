@@ -25,71 +25,34 @@ public class Main {
         }
 
         int[][] run(int[][] A) {
-            int row = A.length - 1;
-            int col = A[0].length - 1;
-
             int[][] result = new int[A.length][A[0].length];
-            for (int r = 0; r < row; r++) {
-                for (int c = 0; c < col; c++) {
-                    result[r][c] = A[r][c];
-                }
-            }
-            Position top = positions[0];
-            Position bottom = positions[1];
+            for (int i = 0; i < A.length; i++) System.arraycopy(A[i], 0, result[i], 0, A[0].length);
 
-            // 윗공기 정화 (반시계 방향)
-            int curR = top.r;
-            int curC = top.c + 1;
-            while (curC < col) {
-                curC++;
-                result[curR][curC] = A[curR][curC - 1];
-            }
-            while(curR > 0) {
-                curR--;
-                result[curR][curC] = A[curR + 1][curC];
-            }
-            while(curC > 0) {
-                curC--;
-                result[curR][curC] = A[curR][curC + 1];
-            }
-            while(curR < top.r) {
-                curR++;
-                result[curR][curC] = A[curR - 1][curC];
-            }
-            while(curC < top.c) {
-                curC++;
-                result[curR][curC] = A[curR][curC - 1];
-            }
-            result[curR][curC] = A[top.r][top.c];
-            result[curR][curC + 1] = 0;
-
-            // 아랫공기 정화 (시계 방향)
-            curR = bottom.r;
-            curC = bottom.c + 1;
-            while (curC < col) {
-                curC++;
-                result[curR][curC] = A[curR][curC - 1];
-            }
-            while(curR < row) {
-                curR++;
-                result[curR][curC] = A[curR - 1][curC];
-            }
-            while(curC > 0) {
-                curC--;
-                result[curR][curC] = A[curR][curC + 1];
-            }
-            while(curR > bottom.r) {
-                curR--;
-                result[curR][curC] = A[curR + 1][curC];
-            }
-            while(curC < bottom.c) {
-                curC++;
-                result[curR][curC] = A[curR][curC - 1];
-            }
-            result[curR][curC] = A[bottom.r][bottom.c];
-            result[curR][curC + 1] = 0;
+            clean(A, result, positions[0], true);  // 위: 반시계
+            clean(A, result, positions[1], false); // 아래: 시계
 
             return result;
+        }
+
+        private void clean(int[][] A, int[][] result, Position p, boolean isCounterClockwise) {
+            int r = p.r;
+            int c = p.c + 1;
+            int maxR = A.length - 1;
+            int maxC = A[0].length - 1;
+
+            result[r][c] = 0;
+            if (isCounterClockwise) {
+                for (; c < maxC; c++) result[r][c + 1] = A[r][c];
+                for (; r > 0; r--) result[r - 1][c] = A[r][c];
+                for (; c > 0; c--) result[r][c - 1] = A[r][c];
+                for (; r < p.r; r++) result[r + 1][c] = A[r][c];
+            } else {
+                for (; c < maxC; c++) result[r][c + 1] = A[r][c];
+                for (; r < maxR; r++) result[r + 1][c] = A[r][c];
+                for (; c > 0; c--) result[r][c - 1] = A[r][c];
+                for (; r > p.r; r--) result[r - 1][c] = A[r][c];
+            }
+            result[p.r][p.c] = -1; // 공기청정기 유지
         }
     }
 
@@ -131,8 +94,7 @@ public class Main {
 
         return result;
     }
-
-
+    
     private static Position[] findDevicePosition(int[][] A) {
         List<Position> positions = new ArrayList<>();
 
@@ -148,45 +110,27 @@ public class Main {
     }
 
     private static void diffuseDust(int[][] A) {
-        Queue<Position> dusts = new LinkedList<>();
-        for (int r = 0; r < A.length; r++) {
-            for (int c = 0; c < A[0].length; c++) {
-                if (A[r][c] > 0) {
-                    dusts.add(new Position(r, c));
+        int R = A.length, C = A[0].length;
+        int[][] temp = new int[R][C];
+        for (int r = 0; r < R; r++) System.arraycopy(A[r], 0, temp[r], 0, C);
+
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) {
+                if (A[r][c] < 5) continue;
+                int spread = A[r][c] / 5, count = 0;
+
+                for (int[] dir : dirs) {
+                    int nr = r + dir[0];
+                    int nc = c + dir[1];
+                    if (nr < 0 || nc < 0 || nr >= R || nc >= C || A[nr][nc] == -1) continue;
+                    temp[nr][nc] += spread;
+                    count++;
                 }
+                temp[r][c] -= spread * count;
             }
         }
 
-        int[][] prevA = new int[A.length][A[0].length];
-        for (int r = 0; r < A.length; r++) {
-            for (int c = 0; c < A[0].length; c++) {
-                prevA[r][c] = A[r][c];
-            }
-        }
-
-        int[][] temp = new int[A.length][A[0].length];
-        while (!dusts.isEmpty()) {
-            Position curPosition = dusts.poll();
-            int curR = curPosition.r;
-            int curC = curPosition.c;
-
-            int count = 0;
-            for (int[] dir : dirs) {
-                int nextR = curR + dir[0];
-                int nextC = curC + dir[1];
-
-                if (nextR < 0 || nextC < 0 || nextR > A.length - 1 || nextC > A[0].length - 1) continue;
-                if (prevA[nextR][nextC] == -1) continue;
-                A[nextR][nextC] += (prevA[curR][curC] / 5);
-                count++;
-            }
-            temp[curR][curC] = (prevA[curR][curC] / 5) * count;
-        }
-
-        for (int r = 0; r < A.length; r++) {
-            for (int c = 0; c < A[0].length; c++) {
-                A[r][c] -= temp[r][c];
-            }
-        }
+        for (int r = 0; r < R; r++) System.arraycopy(temp[r], 0, A[r], 0, C);
     }
+
 }
