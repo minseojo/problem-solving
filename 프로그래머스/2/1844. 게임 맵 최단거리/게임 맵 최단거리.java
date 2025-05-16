@@ -1,50 +1,52 @@
 import java.util.*;
 
 class Solution {
-    static final int[] dy = {0, 0, 1, -1};
-    static final int[] dx = {1, -1, 0, 0};
-
-    static class Position {
-        int y;
-        int x;
-
-        Position(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
-
+    
+    private static int[][] dirs = { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
+    
     public int solution(int[][] maps) {
         int answer = 0;
+        
+        answer = BFS(maps);
+        return answer;
+    }
+    
+    private int BFS(int[][] maps) {
+        int count = 0;
         int n = maps.length;
         int m = maps[0].length;
-        Deque<Position> q = new ArrayDeque<>();
-        q.add(new Position(0, 0));
+        
+        Queue<int[]> queue = new LinkedList<>();
         boolean[][] visited = new boolean[n][m];
+        queue.offer(new int[] {0, 0});
         visited[0][0] = true;
-
-        while (!q.isEmpty()) {
-            answer++;
-            int size = q.size();
+        
+        while (!queue.isEmpty()) {
+            count++;
+            
+            int size = queue.size();
             while (size-- > 0) {
-                Position cur = q.poll();
-                int y = cur.y;
-                int x = cur.x;
+                int[] current = queue.poll();
+                int y = current[0];
+                int x = current[1];
+
                 if (y == n - 1 && x == m - 1) {
-                    return answer;
+                    return count;
                 }
-                for (int i = 0; i < 4; i++) {
-                    int ny = y + dy[i];
-                    int nx = x + dx[i];
-                    if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+
+                for (int[] dir : dirs) {
+                    int ny = y + dir[0];
+                    int nx = x + dir[1];
+                    if (ny < 0 || nx < 0 || ny >= n || nx >= m) continue;
+
                     if (maps[ny][nx] == 1 && !visited[ny][nx]) {
+                        queue.offer(new int[] {ny, nx});
                         visited[ny][nx] = true;
-                        q.add(new Position(ny, nx));
                     }
                 }
             }
         }
-
+        
         return -1;
     }
 }
