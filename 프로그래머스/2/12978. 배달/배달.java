@@ -1,35 +1,47 @@
+import java.util.*;
+
 class Solution {
     public int solution(int N, int[][] road, int K) {
-        int answer = 0;
-        int[][] dist = new int[N + 1][N + 1];
-        
+        List<int[]>[] graph = new ArrayList[N + 1]; // [to, cost]
         for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                if (i == j) continue;
-                dist[i][j] = 1_000_000;        
-            }
+            graph[i] = new ArrayList<>();
         }
-        
-        for (int i = 0; i < road.length; i++) {
-            int a = road[i][0];
-            int b = road[i][1];
-            int c = road[i][2];
-            dist[a][b] = Math.min(dist[a][b], c);
-            dist[b][a] = Math.min(dist[b][a], c);
+
+        for (int[] r : road) {
+            int u = r[0], v = r[1], c = r[2];
+            graph[u].add(new int[]{v, c});
+            graph[v].add(new int[]{u, c});
         }
-        
-        for (int k = 1; k <= N; k++) {
-            for (int i = 1; i <= N; i++) {
-                for (int j = 1; j <= N; j++) {
-                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+
+        int[] dist = new int[N + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[1] = 0;
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(n -> n[1]));
+        pq.offer(new int[]{1, 0});
+
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int currNode = cur[0];
+            int currDist = cur[1];
+
+            if (dist[currNode] < currDist) continue;
+
+            for (int[] edge : graph[currNode]) {
+                int neighbor = edge[0];
+                int edgeCost = edge[1];
+
+                if (dist[neighbor] > currDist + edgeCost) {
+                    dist[neighbor] = currDist + edgeCost;
+                    pq.offer(new int[]{neighbor, dist[neighbor]});
                 }
             }
         }
-        
-        for (int i = 1; i <= N; i++) {
-            if (dist[1][i] <= K) answer++;
-        }
 
+        int answer = 0;
+        for (int d : dist) {
+            if (d <= K) answer++;
+        }
         return answer;
     }
 }
