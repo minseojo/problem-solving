@@ -1,59 +1,61 @@
 import java.util.*;
 
 class Solution {
-    
     public int[] solution(int n, int[][] roads, int[] sources, int destination) {
         int[] answer = new int[sources.length];
         
-        List<List<Integer>> roadList = new ArrayList<>();
+        List<Integer>[] graph = new ArrayList[n + 1];
         for (int i = 0; i <= n; i++) {
-            roadList.add(new ArrayList<>());
+            graph[i] = new ArrayList<>();
         }
-        for (int i = 0; i < roads.length; i++) {
-            int u = roads[i][0];
-            int v = roads[i][1];
-            roadList.get(u).add(v);
-            roadList.get(v).add(u);
+        
+        for (int[] road : roads) {
+            int u = road[0];
+            int v = road[1];
+            graph[u].add(v);
+            graph[v].add(u);
         }
         
         for (int i = 0; i < sources.length; i++) {
-            answer[i] = dijkstra(n, roadList, sources[i], destination);
+            int source = sources[i];
+            if (source == destination) answer[i] = 0;
+            else answer[i] = dijkstra(n, graph, source, destination);
         }
+        
         return answer;
     }
     
-    private int dijkstra(int n, List<List<Integer>> roads, int departure, int destination) {
-        Queue<Integer> q = new LinkedList<>();
-        int[] cost = new int[n + 1];
-        boolean[] visited = new boolean[n + 1];
-        int INF = 10000000;
-        for (int i = 0; i <= n; i++) {
-            cost[i] = INF;
-        }
-        q.add(departure);
-        cost[departure] = 0;
-        visited[departure] = true;
+    public int dijkstra(int n, List<Integer>[] graph, int source, int destination) {
+        int result = 0;
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, 500001);
+        Queue<int[]> pq = new LinkedList<>();
+        pq.add(new int[] {source, 0});
+        dist[source] = 0;
         
-        int count = 1;
-        while (!q.isEmpty()) {
-            int size = q.size();
+        while (!pq.isEmpty()) {
+            int size = pq.size();
             while (size-- > 0) {
-                int cur = q.poll();
-                if (cur == destination) break;
-
-                for (int i = 0; i < roads.get(cur).size(); i++) {
-                    int next = roads.get(cur).get(i);
-                    if (visited[next]) continue;
-                    if (next == destination) return count;
-                    cost[next] = count;
-                    visited[next] = true;
-                    q.add(next);
+                int[] cur = pq.poll();
+                int curNode = cur[0];
+                int curCost = cur[1];
+            
+                if (dist[curNode] < curCost) continue;
+                
+                for (int next : graph[curNode]) {
+                    int nextNode = next;
+                    int nextCost = 1;
+                    
+                    if (dist[nextNode] > curCost + nextCost) {
+                        dist[nextNode] = curCost + nextCost;
+                        if (nextNode == destination) return result + 1;
+                        pq.add(new int[] {nextNode, dist[nextNode]});
+                    }
                 }
             }
-            count++;
+            result++;
         }
         
-        if (cost[destination] == INF) return -1;
-        else return cost[destination];
+        return -1;
     }
 }
