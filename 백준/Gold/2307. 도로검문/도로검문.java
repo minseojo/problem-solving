@@ -38,30 +38,50 @@ public class Main {
             graph[b].add(new Edge(a, t));
         }
 
-        int answer = 0;
-        int originalPath = 0;
-        int maxPath = 0;
 
+        ArrayList<Integer>[] prev = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++) {
+            prev[i] = new ArrayList<>();
+        }
         int[] dist = new int[n + 1];
-        Map<Integer, List<Integer>> prev = new HashMap<>();
         dijkstra(1, n, dist, prev, -1);
-        originalPath = dist[n];
+        int originalPath = dist[n];
 
+        Queue<Integer> seen = new LinkedList<>();
         List<Integer> banNodes = new ArrayList<>();
-        prevDFS(banNodes, n, prev, new boolean[n + 1]);
+        boolean[] visited = new boolean[n + 1];
+        seen.add(n);
+        while (!seen.isEmpty()) {
+            int cur = seen.poll();
+            visited[cur] = true;
+            for (int prevNode : prev[cur]) {
+                if (!visited[prevNode]) {
+                    seen.add(prevNode);
+                    visited[prevNode] = true;
+                    if (prevNode != 1) { // start
+                        banNodes.add(prevNode);
+                    }
+                }
+            }
+        }
 
+
+        int answer = 0;
+        int maxPath = 0;
         for (int banNode : banNodes) {
-            dijkstra(1, n, dist, new HashMap<>(), banNode);
+            dijkstra(1, n, dist, null, banNode);
             maxPath = Math.max(maxPath, dist[n]);
         }
-        
+
         if (originalPath == INF || maxPath == INF) answer = -1;
         else answer = maxPath - originalPath;
 
         System.out.println(answer);
     }
 
-    static void dijkstra(int start, int destination, int[] dist, Map<Integer, List<Integer>> prev, int banNode) {
+    static void dijkstra(int start, int destination, int[] dist, List<Integer>[] prev, int banNode) {
+        if (start == banNode) return;
+
         PriorityQueue<Edge> pq = new PriorityQueue<>((e1, e2) -> Integer.compare(e1.weight, e2.weight));
         Arrays.fill(dist, INF);
         pq.add(new Edge(start, 0));
@@ -83,25 +103,13 @@ public class Main {
                 if (dist[nextNode] > weight + nextWeight) {
                     dist[nextNode] = weight + nextWeight;
                     pq.add(new Edge(nextNode, dist[nextNode]));
-                    if (banNode == -1) {
-                        prev.putIfAbsent(nextNode, new ArrayList<>());
-                        prev.get(nextNode).add(node);
+                    if (prev != null && prev[nextNode] != null) {
+                        prev[nextNode].add(node);
                     }
+                } else if (prev != null && weight + nextWeight == dist[nextNode]) {
+                    prev[nextNode].add(node);
                 }
             }
         }
-
     }
-
-    static void prevDFS(List<Integer> banNodes, int here, Map<Integer, List<Integer>> prev, boolean[] visited) {
-        visited[here] = true;
-        if (prev.get(here) == null) return;
-
-        for (int prevNode : prev.get(here)) {
-            if (visited[prevNode]) continue;
-            prevDFS(banNodes, prevNode, prev, visited);
-            banNodes.add(prevNode);
-        }
-    }
-
 }
