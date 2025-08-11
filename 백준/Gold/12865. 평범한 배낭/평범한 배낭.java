@@ -1,39 +1,49 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
-        int[] dp = new int[k + 1];
+        List<int[]> bag = new ArrayList<>(n);
+        
+        int[] dp = new int[k + 1]; // 무게에 따른 최대 가치, 배열 크기 = 최대 물품의 수 * 물건 최대 가치
 
-        int[][] input = new int[n][2];
         for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
+            st = new StringTokenizer(br.readLine());
             int w = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
-            input[i][0] = w;
-            input[i][1] = v;
+            bag.add(new int[] {w, v});
         }
 
-        for (int i = 0; i < n; i++) {
-            int w = input[i][0];
-            int v = input[i][1];
-
-            for (int j = k; j >= 0; j--) {
-                if (j - w >= 0) {
-                    dp[j] = Math.max(dp[j], v + dp[j-w]);
-                }
+        for (int[] thing : bag) {
+            int w = thing[0];
+            int v = thing[1];
+//
+//            for (int i = w; i <= k; i++) { // 무한 동전 사용가능
+//                dp[i] = Math.max(dp[i], dp[i-w] + v);
+//            }
+/**
+ * 5 7
+ * 6 13
+ * 4 8
+ * 3 6
+ * 5 12
+ * 2 8
+ */
+            for (int i = k; i >= w; i--) {
+                dp[i] = Math.max(dp[i], dp[i-w] + v);
             }
         }
 
-        System.out.println(dp[k]);
+        int answer = 0;
+        for (int i : dp) {
+            answer = Math.max(answer, i);
+        }
+
+        System.out.println(answer);
     }
 }
