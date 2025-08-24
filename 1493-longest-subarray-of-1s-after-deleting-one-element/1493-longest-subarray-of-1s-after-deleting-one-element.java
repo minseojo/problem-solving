@@ -1,41 +1,48 @@
 class Solution {
-    public int longestSubarray(int[] nums) {
-        int answer = 0;
-        int n = nums.length;
-
-        int[] sequecnes = new int[n];
-        int sequence = 0;
-        for (int i = 0; i < n; i++) {
-            if (nums[i] == 1) {
-                sequence++;
-            } else {
-                sequence = 0;
-            }
-            sequecnes[i] = sequence;
-        }
-
-        int[] parent = new int[n];
-        int id = 0;
-        int maxSequence = 0;
-        for (int i = n-1; i >= 0; i--) {
-            if (sequecnes[i] > 0) {
-                maxSequence = Math.max(maxSequence, sequecnes[i]);
-            } else {
-                id++;
-                maxSequence = 0;
-            }
-            parent[i] = id;
-            sequecnes[i] = maxSequence;
-        }
-
-        for (int i = n-1; i >= 0; i--) {
-            if (i > 2 && parent[i] != parent[i-2]) {
-                answer = Math.max(answer, sequecnes[i] + sequecnes[i-2]);
-            }
-            answer = Math.max(answer, sequecnes[i]);
-        }
-
-        if (id == 0) answer -= 1;
-        return answer;
+  public int longestSubarray(int[] nums) {
+    int n = nums.length;
+    int left = 0;
+    int right = 0;
+    int zeroIndex = -1;
+    int zeroCount = 0;
+    int answer = 0;
+    int sum = Arrays.stream(nums)
+        .sum();
+    if (sum == 0) {
+      return 0;
     }
+    if (sum == nums.length) {
+      return sum - 1;
+    }
+    if (nums[0] == 0) {
+      zeroCount++;
+      zeroIndex = 0;
+    }
+    //0이 최대 1개 포함되는 slide-window 사용
+    while (right + 1 < n) {
+      answer = Math.max(answer, countWindow(answer, left, right, zeroCount));
+      if (nums[right + 1] == 1) {
+        right++;
+        continue;
+      }
+      if (nums[right + 1] == 0 && zeroCount == 0) {
+        zeroIndex = right + 1;
+        zeroCount++;
+        right++;
+        continue;
+      }
+      //이미 슬라이딩 윈도우에 0이 있는 경우, 먼저 들어온 0을 제외한다
+      if (nums[right + 1] == 0 && zeroCount == 1) {
+        //이전 0의 다음으로 left를 옮긴다
+        left = zeroIndex + 1;
+        zeroIndex = right + 1;
+        right++;
+      }
+    }
+    return Math.max(answer, countWindow(answer, left, right, zeroCount));
+  }
+  private int countWindow(int answer, int left, int right, int zeroCount) {
+    int windowLength = Math.max(answer, right - left + 1);
+    return zeroCount == 0 ? windowLength : windowLength - 1;
+  }
 }
